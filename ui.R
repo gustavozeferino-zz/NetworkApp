@@ -1,4 +1,4 @@
-setwd("~/Documents/UvA/Jaar 5 2014-2015/Semester 2/Programming The Next Step/Network App")
+setwd("~/GitHub/NetworkApp")
 
 library(shiny)
 library(shinyapps)
@@ -17,65 +17,65 @@ shinyUI(fluidPage(
       helpText("Visualizing networks (now with only source data)."),
     
     textInput("title",
-              label = "Insert your title here:"),
+              label = "Title:"),
     
     selectInput("method",
-                label = "Choose a correlation method to estimate the network",
+                label = "Network estimation method:",
                 choices = c("Pearson Correlation"),
                 selected = "Pearson Correlation"),
     
     selectInput("layout",
-                label = "What layout do you want?",
+                label = "Network layout:",
                 choices = c("Circle", "Spring", "Grouped Circle"),
                 selected = "Spring"),
     
-    radioButtons("node_labels",
-                 label = "Do you want node labels?",
-                 choices = c("Yes", "No")),
+    checkboxInput("node_labels",
+                 label = "Node labels", 
+                 value = TRUE),
     
-    radioButtons("weighted",
-                 label = "Do you want weighted edges?",
-                 choices = c("Yes", "No")),
+    checkboxInput("weighted",
+                 label = "Edge weights",
+                 value = TRUE),
     
-    radioButtons("direction",
-                 label = "Do you want directed edges?",
-                 choices = c("Yes", "No")),
+    checkboxInput("direction",
+                 label = "Directed edges",
+                 value = FALSE),
+    
+    checkboxInput("details",
+                  label = "Graph details",
+                  value = TRUE),
     
     sliderInput("minimum",
-                label = "Insert the minimum edge weight here:",
+                label = "Minimum edge weight:",
                 min = 0,
                 max = 1,
                 value = q$graphAttributes$Graph$minimum),
     
     sliderInput("maximum",
-                label = "Insert the maximum edge weight here:",
+                label = "Maximum edge weight:",
                 min = 0,
                 max = 1,
                 value = q$graphAttributes$Graph$maximum),
     
     sliderInput("cut",
-                label = "Insert a cut value for edge scaling here:",
+                label = "Edge cut-off value",
                 min = 0,
                 max = 1,
                 value = q$graphAttributes$Graph$cut),
     
-    radioButtons("details",
-                 label = "Do you want to display the graph details?",
-                 choices = c("Yes", "No")),
-    
     sliderInput("edgesize",
-                label = "How large do you want the edges to be?",
+                label = "Edge size:",
                 min = 0,
                 max = 25,
                 value = 1),
     
     sliderInput("nodesize",
-                label = "How large do you want the edges to be?",
+                label = "Node size:",
                 min = 0,
                 max = 25,
                 value = 6.1),
     
-    downloadButton('downloadnetwork', 'Download Network Image')),
+    downloadButton('downloadnetwork', 'Download PDF')),
     
     mainPanel(
       tabsetPanel(

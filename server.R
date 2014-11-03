@@ -1,4 +1,4 @@
-setwd("~/Documents/UvA/Jaar 5 2014-2015/Semester 2/Programming The Next Step/Network App")
+setwd("~/GitHub/NetworkApp")
 
 library(shiny)
 library(qgraph)
@@ -19,26 +19,49 @@ shinyServer(
                        "Circle" = "circle",
                        "Spring" = "spring",
                        "Grouped Circle" = "groups")
+    
+      lab = NULL
+     if(input$node_labels == TRUE)
+      {
+        lab <- names(data)
+      } else
+      {
+        lab = FALSE
+      }
       
-      lab <- switch(input$node_labels,
-                    "Yes" = names(data),
-                    "No" = NULL)
-      
-      det <- switch(input$details,
-                    "Yes" = TRUE,
-                    "No" = FALSE)
+    det <- NULL
+     if(input$details == TRUE)
+     {
+       det = TRUE
+     } else
+     {
+       det = FALSE
+     }
+     
+      weight <- NULL
+     if(input$weighted == TRUE)
+     {
+       weight = TRUE
+     } else
+     {
+       weight = FALSE
+     }
+     
+      direct <- NULL
+     if(input$direction == TRUE)
+     {
+       direct = TRUE
+     } else
+     {
+       direct = FALSE
+     }
       tit <- input$title      
       min <- input$minimum        
       max <- input$maximum        
       ct <- input$cut      
       es <- input$edgesize      
       ns <- input$nodesize
-      weight <- switch(input$weighted,
-                       "Yes" = TRUE,
-                       "No" = FALSE)
-      direct <- switch(input$direction,
-                       "Yes" = TRUE,
-                       "No" = FALSE)
+
       #visualize network
       q1 <- qgraph(data,
             layout = lay, 
