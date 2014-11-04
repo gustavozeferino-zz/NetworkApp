@@ -4,7 +4,7 @@ library(shinyapps)
 library(qgraph)
 
 data(big5)
-data <- big5
+data <- big5[,1:25]
 
 q <- qgraph(cor(data), DoNotPlot = TRUE)
 

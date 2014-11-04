@@ -1,8 +1,9 @@
 library(shiny)
+library(shinyapps)
 library(qgraph)
 
 data(big5)
-data <- big5
+data <- big5[,1:25]
 
 shinyServer(
   function(input, output) {
