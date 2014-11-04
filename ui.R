@@ -1,8 +1,10 @@
+source("")
+
 library(shiny)
 library(shinyapps)
 library(qgraph)
 
-qol <- read.delim("SF_36_NKI_HEALTHY.txt", 
+qol <- read.delim("http://www.jolandakossakowski.eu/wp-content/uploads/2014/11/SF_36_NKI_HEALTHY.txt", 
                   na.strings = 0, 
                   header = TRUE)
 q <- qgraph(cor(qol), DoNotPlot = TRUE)
