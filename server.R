@@ -1,9 +1,8 @@
 library(shiny)
 library(qgraph)
 
-qol <- read.delim("http://www.jolandakossakowski.eu/wp-content/uploads/2014/11/SF_36_NKI_HEALTHY.txt", 
-                  na.strings = 0, 
-                  header = TRUE)
+data(big5)
+data <- big5
 
 shinyServer(
   function(input, output) {
@@ -11,7 +10,7 @@ shinyServer(
     #visualize network
     output$network <- renderPlot({  
       data <- switch(input$method,
-                     "Pearson Correlation" = cor(qol, method = "pearson"))
+                     "Pearson Correlation" = cor(data, method = "pearson"))
       
       lay <- switch(input$layout,
                        "Circle" = "circle",

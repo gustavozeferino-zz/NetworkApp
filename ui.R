@@ -3,10 +3,10 @@ library(shiny)
 library(shinyapps)
 library(qgraph)
 
-qol <- read.delim("http://www.jolandakossakowski.eu/wp-content/uploads/2014/11/SF_36_NKI_HEALTHY.txt", 
-                  na.strings = 0, 
-                  header = TRUE)
-q <- qgraph(cor(qol), DoNotPlot = TRUE)
+data(big5)
+data <- big5
+
+q <- qgraph(cor(data), DoNotPlot = TRUE)
 
 shinyUI(fluidPage(
   titlePanel("Network App"),
