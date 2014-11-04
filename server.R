@@ -1,5 +1,3 @@
-setwd("~/GitHub/NetworkApp")
-
 library(shiny)
 library(qgraph)
 
