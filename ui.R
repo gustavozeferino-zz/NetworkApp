@@ -1,4 +1,3 @@
-source("")
 
 library(shiny)
 library(shinyapps)
