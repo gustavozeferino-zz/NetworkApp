@@ -2,8 +2,8 @@ library(shiny)
 library(qgraph)
 
 qol <- read.delim("http://www.jolandakossakowski.eu/wp-content/uploads/2014/11/SF_36_NKI_HEALTHY.txt", 
-                   na.strings = 0, 
-                   header = TRUE)
+                  na.strings = 0, 
+                  header = TRUE)
 
 shinyServer(
   function(input, output) {
