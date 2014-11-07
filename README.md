@@ -47,8 +47,17 @@ if(!"shiny" %in% installed.packages())
 { 
   install.packages("shiny") 
 }
+
+if (!require("devtools"))
+  install.packages("devtools")
+devtools::install_github("rstudio/shinyapps")
+
 library("shiny")
+library("shinyapps")
+
 runGitHub( "NetworkApp", "JolandaKossakowski") 
+
+
 ```
 
 All features are implemented using the R-package qgraph version 1.2.5

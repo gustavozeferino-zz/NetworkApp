@@ -90,8 +90,17 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 { 
   install.packages(&quot;shiny&quot;) 
 }
+
+if (!require(&quot;devtools&quot;))
+  install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;rstudio/shinyapps&quot;)
+
 library(&quot;shiny&quot;)
-runGitHub( &quot;NetworkApp&quot;, &quot;JolandaKossakowski&quot;) </code></pre>
+library(&quot;shinyapps&quot;)
+
+runGitHub( &quot;NetworkApp&quot;, &quot;JolandaKossakowski&quot;) 
+
+</code></pre>
 <p>All features are implemented using the R-package qgraph version 1.2.5</p>
 <p>Citations:</p>
 <p>Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D., &amp; Borsboom, D. (2012) qgraph: Network Visualizations of Relationships in Psychometric Data. <em>Journal of Statistical Software, 48</em>, 1 - 18.</p>
