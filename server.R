@@ -115,31 +115,34 @@ shinyServer(
     })
 
 #     # Print centrality plot
-#     output$centplot <- renderPlot({
-#       
-#       # Read input file
-#       inFile <- input$file1
-#       
-#       if (is.null(inFile))
-#         return(NULL)
-#       
-#       file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-#       print(file)
-#       file <- switch(file,
-#                      "Pearson Correlation" = cor(file, method = "pearson"))
-#       
-#       q2 <- qgraph(file, DoNotPlot = TRUE)
-#       
-#       c <- centralityPlot(q2)
-#       
-#       if(input$horizontal == TRUE)
-#       {
-#         print(c + coord_flip())
-#       } else
-#       {
-#         print(c)
-#       }
-#    })  
+    output$centplot <- renderPlot({
+      
+      # Read input file
+      inFile <- input$file1
+      
+      if (is.null(inFile))
+      {
+        return(NULL)
+      }         
+      
+      data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      
+      # Apply chosen estimation method
+      data <- switch(input$method,
+                     "Pearson Correlation" = cor(data, method = "pearson"))  
+      
+      q2 <- qgraph(data, DoNotPlot = TRUE)
+      
+      c <- centralityPlot(q2)
+      
+      if(input$horizontal == TRUE)
+      {
+        print(c + coord_flip())
+      } else
+      {
+        print(c)
+      }
+   })  
 
         # Print centrality table
 
