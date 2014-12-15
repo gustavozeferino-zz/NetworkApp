@@ -155,6 +155,7 @@ shinyServer(
         # Apply chosen estimation method
         data <- switch(input$method,
                "Pearson Correlation" = cor(data, method = "pearson"))       
+        q2 <- qgraph(data)
 
         output$centtable <- renderTable({
           
