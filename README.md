@@ -18,11 +18,11 @@ Current available features:
 * Change edge size
 * Change node size
 * Download pdf of graph
-
+* Upload your own dataset
 
 Features that will be implemented:
 * Network visualization
-  * Upload your own dataset
+
   * Enter group specification that will be visualized
   * Add a legend
   * Change node labels
