@@ -115,21 +115,39 @@ shinyServer(
     })
 
     # Print centrality plot
-    output$centplot <- renderPlot({
-      
+#     output$centplot <- renderPlot({
+#       
 #       file <- switch(data,
 #                      "Pearson Correlation" = cor(data, method = "pearson"))
 #       
-      q2 <- qgraph(data, DoNotPlot = TRUE)
-      
-      c <- centralityPlot(q2)
-      
-      if(input$horizontal == TRUE)
-      {
-        print(c + coord_flip())
-      } else
-      {
-        print(c)
-      }
-    })  
+#       q2 <- qgraph(data, DoNotPlot = TRUE)
+#       
+#       c <- centralityPlot(q2)
+#       
+#       if(input$horizontal == TRUE)
+#       {
+#         print(c + coord_flip())
+#       } else
+#       {
+#         print(c)
+#       }
+#     })  
+
+output$centtable <- renderTable({
+  print(data)
+  
+})
+
+#         # Print centrality table
+#         output$centtable <- renderTable({
+#           
+#           t <- centralityTable(q2, DoNotPlot = TRUE)
+#           t <- reshape(t, timevar = "measure",
+#                        idvar = c("graph", "node"),
+#                        direction = "wide")
+#           t <- t[, c(2, 4, 6, 8)]
+#           colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
+#           print(t)
+#         })
+#       })
 })
