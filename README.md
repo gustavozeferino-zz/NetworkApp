@@ -34,6 +34,7 @@ Features that will be implemented:
   * Choose centrality measures 
   * Option to merge centrality measures into one plot
   * Change asthetics of centrality plot
+  
 * Clustering tab
   * Add third tab with clustering table and plot
   * Download clustering table and plot
