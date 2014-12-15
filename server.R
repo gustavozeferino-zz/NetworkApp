@@ -134,7 +134,7 @@ shinyServer(
 #     })  
 
 output$centtable <- renderTable({
-  table(data)
+  apply(data, 1, summary)
   
 })
 
