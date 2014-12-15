@@ -115,7 +115,8 @@ shinyUI(pageWithSidebar(
       
       tabPanel("Centrality", 
                plotOutput("centplot"),
-               tableOutput("centtable")
+               tableOutput("centtable"),
+               
               tags$hr(),
                  
               checkboxInput("horizontal",
