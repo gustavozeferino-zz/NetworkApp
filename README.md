@@ -21,7 +21,8 @@ Current available features:
   * Upload your own dataset
 
 * Centrality tab
-    * Add second tab with centrality table and plot
+  * Add second tab with centrality table and plot
+  * Download centrality table and plot
 
 Features that will be implemented:
 
@@ -32,8 +33,6 @@ Features that will be implemented:
   * Change node colours
 
 * Centrality tab
-  * Add second tab with centrality table and plot
-  * Download centrality table and plot
   * Choose centrality measures 
   * Change asthetics of centrality plot
   
