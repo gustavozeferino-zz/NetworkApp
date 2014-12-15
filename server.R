@@ -113,39 +113,22 @@ shinyServer(
           dev.off()
         })
     })
-    
-    #print centrality table
-    output$centtable <- renderTable({
-      data <- switch(input$method,
-                     "Pearson Correlation" = cor(qol, method = "pearson"))
-      q2 <- qgraph(data, DoNotPlot = TRUE)
-      
-      ct <- centrality_auto(q2)$node.centrality
-      print(ct)
-    })
-    
-    #visualizing centrality plot
-    output$cent <- renderPlot({
+
+    # Print centrality plot
+    output$centplot <- renderPlot({
       
       data <- switch(input$method,
-                     "Pearson Correlation" = cor(qol, method = "pearson"))
+                     "Pearson Correlation" = cor(data, method = "pearson"))
       q2 <- qgraph(data, DoNotPlot = TRUE)
       
       c <- centralityPlot(q2)
-      print(c)
       
-      #download centrality plot
-      #       output$downloadcentrality <- downloadHandler(
-      #         filename = function()
-      #         {
-      #           paste("Download", label = "centrality_image", class = ".pdf", sep = "") 
-      #         },
-      #         content = function(file) 
-      #         {
-      #           pdf(file)
-      #           centralityPlot(q2)
-      #           dev.off()
-      #         })
-    })
-  }
-)
+      if(input$horizontal == TRUE)
+      {
+        print(c + coord_flip())
+      } else
+      {
+        print(c)
+      }
+    
+})
