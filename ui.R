@@ -115,7 +115,18 @@ shinyUI(pageWithSidebar(
       
       tabPanel("Centrality", 
                plotOutput("centplot"),
-               tableOutput("centtable"))
+               tableOutput("centtable")
+              tags$hr(),
+                 
+              checkboxInput("horizontal",
+                             label = "Flip plot", 
+                            value = FALSE),
+                       
+              downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
+              tags$hr(),
+              downloadButton('downloadcentralitytable', 'Download Centrality Table')
+      )  
+      )
     )  
   )
 ))
