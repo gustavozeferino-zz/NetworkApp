@@ -158,9 +158,9 @@ shinyServer(
           # Apply chosen estimation method
           data <- switch(input$method,
                          "Pearson Correlation" = cor(data, method = "pearson"))       
-          q2 <- qgraph(data)
+          q2 <- qgraph(data, DoNotPlot = TRUE)
           
-            t <- centralityTable(q2, DoNotPlot = TRUE)
+            t <- centralityTable(q2)
             t <- reshape(t, timevar = "measure",
                         idvar = c("graph", "node"),
                         direction = "wide")
