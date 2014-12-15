@@ -3,11 +3,11 @@
 library(shiny)
 library(shinyapps)
 library(qgraph)
-
+library(ggplot2)
 
 shinyServer(
   function(input, output) {
-
+    
     
     # Visualize network
     output$network <- renderPlot({
@@ -26,12 +26,12 @@ shinyServer(
       
       # Use chosen layout
       lay <- switch(input$layout,
-                       "Circle" = "circle",
-                       "Spring" = "spring",
-                       "Grouped Circle" = "groups")
-    
+                    "Circle" = "circle",
+                    "Spring" = "spring",
+                    "Grouped Circle" = "groups")
+      
       lab = NULL
-     if(input$node_labels == TRUE)
+      if(input$node_labels == TRUE)
       {
         lab <- names(data)
       } else
@@ -39,62 +39,62 @@ shinyServer(
         lab = FALSE
       }
       
-    det <- NULL
-     if(input$details == TRUE)
-     {
-       det = TRUE
-     } else
-     {
-       det = FALSE
-     }
-     
+      det <- NULL
+      if(input$details == TRUE)
+      {
+        det = TRUE
+      } else
+      {
+        det = FALSE
+      }
+      
       weight <- NULL
-     if(input$weighted == TRUE)
-     {
-       weight = TRUE
-     } else
-     {
-       weight = FALSE
-     }
-     
+      if(input$weighted == TRUE)
+      {
+        weight = TRUE
+      } else
+      {
+        weight = FALSE
+      }
+      
       direct <- NULL
-     if(input$direction == TRUE)
-     {
-       direct = TRUE
-     } else
-     {
-       direct = FALSE
-     }
+      if(input$direction == TRUE)
+      {
+        direct = TRUE
+      } else
+      {
+        direct = FALSE
+      }
       tit <- input$title      
       min <- input$minimum        
       max <- input$maximum        
       ct <- input$cut      
       es <- input$edgesize      
       ns <- input$nodesize
-
+      
       #visualize network
       q1 <- qgraph(data,
-            layout = lay, 
-            labels = lab,
-            title = tit,
-            minimum = min,
-            maximum = max,
-            cut = ct,
-            details = det,
-            esize = es,
-            vsize = ns,
-            weighted = weight,
-            directed = direct,
-            sampleSize = nrow(data))
-   
+                   layout = lay, 
+                   labels = lab,
+                   title = tit,
+                   minimum = min,
+                   maximum = max,
+                   cut = ct,
+                   details = det,
+                   esize = es,
+                   vsize = ns,
+                   weighted = weight,
+                   directed = direct,
+                   sampleSize = nrow(data))
+      
       #download network image
       output$downloadnetwork <- downloadHandler(
         filename = function()
-          {
-         paste("Download", label = "network_image", class = ".pdf", sep = "") 
+        {
+          paste("Download", label = "network_image", class = ".pdf", sep = "") 
         },
         content = function(file) 
-          {
+        {
           pdf(file)
           qgraph(data,
                  layout = lay, 
@@ -135,17 +135,17 @@ shinyServer(
       print(c)
       
       #download centrality plot
-#       output$downloadcentrality <- downloadHandler(
-#         filename = function()
-#         {
-#           paste("Download", label = "centrality_image", class = ".pdf", sep = "") 
-#         },
-#         content = function(file) 
-#         {
-#           pdf(file)
-#           centralityPlot(q2)
-#           dev.off()
-#         })
+      #       output$downloadcentrality <- downloadHandler(
+      #         filename = function()
+      #         {
+      #           paste("Download", label = "centrality_image", class = ".pdf", sep = "") 
+      #         },
+      #         content = function(file) 
+      #         {
+      #           pdf(file)
+      #           centralityPlot(q2)
+      #           dev.off()
+      #         })
     })
   }
 )
