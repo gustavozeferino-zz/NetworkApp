@@ -126,10 +126,10 @@ shinyUI(pageWithSidebar(
               downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
               tags$hr(),
               downloadButton('downloadcentralitytable', 'Download Centrality Table')
-      )  
+        )  
       )
     )  
   )
-))
+)
 
 
