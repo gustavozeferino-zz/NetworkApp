@@ -142,6 +142,22 @@ shinyServer(
       {
         print(c)
       }
+    
+      # Download centrality plot
+      output$downloadcentralityplot <- downloadHandler(
+        
+        
+        filename = function()
+        {
+          paste("Download", label = "centrality_plot", class = ".pdf", sep = "") 
+        },
+        content = function(file) 
+        {
+          pdf(file)
+          centralityPlot(q2)
+          dev.off()
+        })
+    
    })  
 
         # Print centrality table
@@ -170,29 +186,18 @@ shinyServer(
             t <- t[, c(2, 4, 6, 8)]
             colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
             print(t)
+          
+          # Download centrality table
+          output$downloadcentralitytable <- downloadHandler(
+            
+            filename = function()
+            {
+              paste("centrality_table", class = ".csv", sep = "") 
+            },
+            content = function(file) 
+            {
+              write.csv(t, file, sep = ",")
+            })
+          
         })
-
-      # Download centrality plot
-      output$downloadcentralityplot <- downloadHandler(
-        filename = function()
-        {
-          paste("Download", label = "centrality_plot", class = ".pdf", sep = "") 
-        },
-        content = function(file) 
-        {
-          pdf(file)
-          centralityPlot(q2)
-          dev.off()
-        })
-      
-      # Download centrality table
-      output$downloadcentralitytable <- downloadHandler(
-        filename = function()
-        {
-          paste("centrality_table", class = ".csv", sep = "") 
-        },
-        content = function(file) 
-        {
-          write.csv(t, file, sep = ",")
-        })
-      })
+   })
