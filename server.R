@@ -125,7 +125,7 @@ shinyServer(
       
       file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
       file <- switch(file,
-                     "Pearson Correlation" = cor(data, method = "pearson"))
+                     "Pearson Correlation" = cor(file, method = "pearson"))
       
       q2 <- qgraph(file, DoNotPlot = TRUE)
       
