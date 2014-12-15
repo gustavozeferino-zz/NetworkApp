@@ -1,18 +1,30 @@
+## Network App ##
+
 library(shiny)
 library(shinyapps)
 library(qgraph)
 
-data(big5)
-data <- big5[,1:25]
 
 shinyServer(
   function(input, output) {
+
     
-    #visualize network
-    output$network <- renderPlot({  
+    # Visualize network
+    output$network <- renderPlot({
+      
+      # Read input file
+      inFile <- input$file1
+      
+      if (is.null(inFile))
+        return(NULL)
+      
+      data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      
+      # Apply chosen estimation method
       data <- switch(input$method,
                      "Pearson Correlation" = cor(data, method = "pearson"))
       
+      # Use chosen layout
       lay <- switch(input$layout,
                        "Circle" = "circle",
                        "Spring" = "spring",
