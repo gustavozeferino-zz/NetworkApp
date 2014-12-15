@@ -141,16 +141,30 @@ shinyServer(
 #       }
 #    })  
 
-#         # Print centrality table
-#         output$centtable <- renderTable({
-#           
-#           t <- centralityTable(q2, DoNotPlot = TRUE)
-#           t <- reshape(t, timevar = "measure",
-#                        idvar = c("graph", "node"),
-#                        direction = "wide")
-#           t <- t[, c(2, 4, 6, 8)]
-#           colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
-#           print(t)
-#         })
-#       })
+        # Print centrality table
+        # Read input file
+        inFile <- input$file1
+
+        if (is.null(inFile))
+        {
+          return(NULL)
+        }         
+
+        data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+
+        # Apply chosen estimation method
+        data <- switch(input$method,
+               "Pearson Correlation" = cor(data, method = "pearson"))       
+
+        output$centtable <- renderTable({
+          
+            t <- centralityTable(q2, DoNotPlot = TRUE)
+            t <- reshape(t, timevar = "measure",
+                        idvar = c("graph", "node"),
+                        direction = "wide")
+            t <- t[, c(2, 4, 6, 8)]
+            colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
+            print(t)
+        })
+      })
 })
