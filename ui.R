@@ -112,6 +112,10 @@ shinyUI(pageWithSidebar(
     tabsetPanel(
       tabPanel("Network Visualization", 
                plotOutput("network"))
+      
+      tabPanel("Centrality", 
+               plotOutput("centplot"),
+               tableOutput("centtable"))
     )  
   )
 ))
