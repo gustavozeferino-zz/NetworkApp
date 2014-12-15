@@ -21,11 +21,11 @@ Current available features:
   * Upload your own dataset
 
 * Centrality tab
-    * Add second tab with centrality table
+    * Add second tab with centrality table and plot
 
 Features that will be implemented:
-* Network visualization
 
+* Network visualization
   * Enter group specification that will be visualized
   * Add a legend
   * Change node labels
