@@ -134,7 +134,7 @@ shinyServer(
 #     })  
 
 output$centtable <- renderTable({
-  apply(data, 1, summary)
+  centralityTable(qgraph(data))
   
 })
 
