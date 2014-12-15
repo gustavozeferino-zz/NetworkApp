@@ -122,7 +122,7 @@ shinyUI(pageWithSidebar(
               checkboxInput("horizontal",
                              label = "Flip plot", 
                             value = FALSE),
-                       
+              tags$hr(),         
               downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
               tags$hr(),
               downloadButton('downloadcentralitytable', 'Download Centrality Table')

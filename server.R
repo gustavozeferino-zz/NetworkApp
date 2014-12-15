@@ -117,9 +117,10 @@ shinyServer(
     # Print centrality plot
     output$centplot <- renderPlot({
       
-      data <- switch(input$method,
+      file <- switch(data,
                      "Pearson Correlation" = cor(data, method = "pearson"))
-      q2 <- qgraph(data, DoNotPlot = TRUE)
+      
+      q2 <- qgraph(file, DoNotPlot = TRUE)
       
       c <- centralityPlot(q2)
       
