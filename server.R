@@ -185,7 +185,7 @@ shinyServer(
                         direction = "wide")
             t <- t[, c(2, 4, 6, 8)]
             colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
-            print(t)
+            return(t)
           
           # Download centrality table
           output$downloadcentralitytable <- downloadHandler(
