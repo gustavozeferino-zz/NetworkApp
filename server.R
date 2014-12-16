@@ -7,30 +7,21 @@ library(ggplot2)
 
 shinyServer(
   function(input, output) {
+
     
-    # Define data    
-    file <- reactive({
+    # Define global data with estimation 
+    data <- reactive({
       
       inFile <- input$file1
-      
+    
       if (is.null(inFile))
       {
         return(NULL)
       }
-      read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)     
-    })
-    
-    # Define global data with estimation
-    
-    data <- reactive({
-      if(is.null(file()))
-      {
-        return("Upload your data")
-      } else
-      {
-        switch(input$method,
-                     "Pearson Correlation" = cor(file(), method = "pearson"))  
-      }
+      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)     
+  
+      switch(input$method,
+            "Pearson Correlation" = cor(file, method = "pearson"))  
     })
     
     # Visualize network
