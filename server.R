@@ -8,32 +8,34 @@ library(ggplot2)
 shinyServer(
   function(input, output) {
     
-    # Define data
-    
+    # Define data    
     file <- reactive({
       
-      # Read input file
       inFile <- input$file1
       
       if (is.null(inFile))
+      {
         return(NULL)
-      
-      read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-      
+      }
+      read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)     
     })
     
     # Define global data with estimation
     
     data <- reactive({
-      switch(input$method,
-                     "Pearson Correlation" = cor(file(), method = "pearson"))      
+      if(is.null(file()))
+      {
+        return(NULL)
+      } else
+      {
+        switch(input$method,
+                     "Pearson Correlation" = cor(file(), method = "pearson"))  
+      }
     })
     
     # Visualize network
     output$network <- renderPlot({     
       
-      # Apply chosen estimation method
-
       # Use chosen layout
       lay <- switch(input$layout,
                     "Circle" = "circle",
