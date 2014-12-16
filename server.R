@@ -25,7 +25,7 @@ shinyServer(
     data <- reactive({
       if(is.null(file()))
       {
-        return(NULL)
+        return("Upload your data")
       } else
       {
         switch(input$method,
