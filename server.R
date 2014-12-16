@@ -8,9 +8,9 @@ library(ggplot2)
 shinyServer(
   function(input, output) {
     
+    # Define data
     
-    # Visualize network
-    output$network <- renderPlot({
+    file <- reactive({
       
       # Read input file
       inFile <- input$file1
@@ -18,12 +18,22 @@ shinyServer(
       if (is.null(inFile))
         return(NULL)
       
-      data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      
+    })
+    
+    # Define global data with estimation
+    
+    data <- reactive({
+      switch(input$method,
+                     "Pearson Correlation" = cor(file(), method = "pearson"))      
+    })
+    
+    # Visualize network
+    output$network <- renderPlot({     
       
       # Apply chosen estimation method
-      data <- switch(input$method,
-                     "Pearson Correlation" = cor(data, method = "pearson"))
-      
+
       # Use chosen layout
       lay <- switch(input$layout,
                     "Circle" = "circle",
@@ -33,7 +43,7 @@ shinyServer(
       lab = NULL
       if(input$node_labels == TRUE)
       {
-        lab <- names(data)
+        lab <- names(file())
       } else
       {
         lab = FALSE
@@ -73,7 +83,7 @@ shinyServer(
       ns <- input$nodesize
       
       #visualize network
-      q1 <- qgraph(data,
+      q1 <- qgraph(data(),
                    layout = lay, 
                    labels = lab,
                    title = tit,
@@ -85,7 +95,7 @@ shinyServer(
                    vsize = ns,
                    weighted = weight,
                    directed = direct,
-                   sampleSize = nrow(data))
+                   sampleSize = nrow(data()))
       
       #download network image
       output$downloadnetwork <- downloadHandler(
@@ -96,7 +106,7 @@ shinyServer(
         content = function(file) 
         {
           pdf(file)
-          qgraph(data,
+          qgraph(data(),
                  layout = lay, 
                  labels = lab,
                  title = tit,
@@ -116,22 +126,8 @@ shinyServer(
 
 #     # Print centrality plot
     output$centplot <- renderPlot({
-      
-      # Read input file
-      inFile <- input$file1
-      
-      if (is.null(inFile))
-      {
-        return(NULL)
-      }         
-      
-      data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-      
-      # Apply chosen estimation method
-      data <- switch(input$method,
-                     "Pearson Correlation" = cor(data, method = "pearson"))  
-      
-      q2 <- qgraph(data, DoNotPlot = TRUE)
+
+      q2 <- qgraph(data(), DoNotPlot = TRUE)
       
       # Plot centrality measures
       c <- centralityPlot(q2)
@@ -162,20 +158,7 @@ shinyServer(
 
         # Print centrality table
         output$centtable <- renderTable({
-          
-          # Read input file
-          inFile <- input$file1
-          
-          if (is.null(inFile))
-          {
-            return(NULL)
-          }         
-          
-          data <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-          
-          # Apply chosen estimation method
-          data <- switch(input$method,
-                         "Pearson Correlation" = cor(data, method = "pearson"))       
+                
           q2 <- qgraph(data, DoNotPlot = TRUE)
           
             # Compute centrality table
