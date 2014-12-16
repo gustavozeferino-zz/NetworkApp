@@ -54,6 +54,11 @@ if(!"qgraph" %in% installed.packages())
   install.packages("qgraph") 
 }
 
+if(!"ggplot2" %in% installed.packages()) 
+{ 
+  install.packages("ggplot2") 
+}
+
 if (!require("devtools"))
   install.packages("devtools")
 devtools::install_github("rstudio/shinyapps")
@@ -61,14 +66,15 @@ devtools::install_github("rstudio/shinyapps")
 library("shiny")
 library("qgraph")
 library("shinyapps")
+library("ggplot2")
 
 runGitHub( "NetworkApp", "JolandaKossakowski") 
 
 ```
 
-All features are implemented using the R-package qgraph version 1.2.5
+All features are implemented using the R-package qgraph version 1.3
 
-Citations:
+References:
 
 Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D., & Borsboom, D. (2012) qgraph: Network Visualizations of Relationships in Psychometric Data. *Journal of Statistical Software, 48*, 1 - 18.
 

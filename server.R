@@ -186,16 +186,17 @@ shinyServer(
             t <- t[, c(2, 4, 6, 8)]
             colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
             return(t)
-          
+        })
+
           # Download centrality table
-          output$downloadcentralitytable <- downloadHandler(
+          output$downloadcentralitytable <- downloadHandler(            
             filename = function()
             {
               paste("centrality_table", class = ".csv", sep = "") 
-            },
+            },            
             content = function(file) 
             {
-              write.csv(t, file, sep = ",")
+              write.csv(t, file, row.names = FALSE)
             })       
-        })
+       
    })
