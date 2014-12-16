@@ -133,8 +133,10 @@ shinyServer(
       
       q2 <- qgraph(data, DoNotPlot = TRUE)
       
+      # Plot centrality measures
       c <- centralityPlot(q2)
       
+      # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
         print(c + coord_flip())
@@ -145,8 +147,7 @@ shinyServer(
     
       # Download centrality plot
       output$downloadcentralityplot <- downloadHandler(
-        
-        
+                
         filename = function()
         {
           paste("Download", label = "centrality_plot", class = ".pdf", sep = "") 
@@ -156,12 +157,10 @@ shinyServer(
           pdf(file)
           centralityPlot(q2)
           dev.off()
-        })
-    
+        })    
    })  
 
         # Print centrality table
-
         output$centtable <- renderTable({
           
           # Read input file
@@ -179,6 +178,7 @@ shinyServer(
                          "Pearson Correlation" = cor(data, method = "pearson"))       
           q2 <- qgraph(data, DoNotPlot = TRUE)
           
+            # Compute centrality table
             t <- centralityTable(q2)
             t <- reshape(t, timevar = "measure",
                         idvar = c("graph", "node"),
@@ -188,16 +188,15 @@ shinyServer(
             print(t)
           
           # Download centrality table
-          output$downloadcentralitytable <- downloadHandler(
-            
-            filename = function()
-            {
-              paste("centrality_table", class = ".csv", sep = "") 
-            },
-            content = function(file) 
-            {
-              write.csv(t, file, sep = ",")
-            })
-          
+#           output$downloadcentralitytable <- downloadHandler(
+#             
+#             filename = function()
+#             {
+#               paste("centrality_table", class = ".csv", sep = "") 
+#             },
+#             content = function(file) 
+#             {
+#               write.csv(t, file, sep = ",")
+#             })          
         })
    })
