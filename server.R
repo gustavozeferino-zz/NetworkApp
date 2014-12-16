@@ -188,15 +188,14 @@ shinyServer(
             print(t)
           
           # Download centrality table
-#           output$downloadcentralitytable <- downloadHandler(
-#             
-#             filename = function()
-#             {
-#               paste("centrality_table", class = ".csv", sep = "") 
-#             },
-#             content = function(file) 
-#             {
-#               write.csv(t, file, sep = ",")
-#             })          
+          output$downloadcentralitytable <- downloadHandler(
+            filename = function()
+            {
+              paste("centrality_table", class = ".csv", sep = "") 
+            },
+            content = function(file) 
+            {
+              write.csv(t, file, sep = ",")
+            })       
         })
    })
