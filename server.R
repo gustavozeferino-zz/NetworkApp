@@ -144,7 +144,8 @@ shinyServer(
       {
         print(c)
       }
-    
+    })
+
       # Download centrality plot
       output$downloadcentralityplot <- downloadHandler(
                 
@@ -157,8 +158,7 @@ shinyServer(
           pdf(file)
           centralityPlot(q2)
           dev.off()
-        })    
-   })  
+        })      
 
         # Print centrality table
         output$centtable <- renderTable({
