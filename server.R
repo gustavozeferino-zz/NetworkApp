@@ -150,7 +150,7 @@ shinyServer(
                 
         filename = function()
         {
-          paste("Download", label = "centrality_plot", class = ".pdf", sep = "") 
+          paste("centrality_plot", class = ".pdf", sep = "") 
         },
         content = function(file) 
         {
