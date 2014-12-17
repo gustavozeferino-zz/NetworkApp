@@ -19,7 +19,8 @@ Current available features:
   * Change node size
   * Download pdf of graph
   * Upload your own dataset
-
+  * More network estimation options
+  
 * Centrality tab
   * Add second tab with centrality table and plot
   * Download centrality table and plot
@@ -38,7 +39,6 @@ Features that will be implemented:
   * Add a legend
   * Change node labels
   * Change node colours
-  * More network estimation options
   * Extend functions for more than 1 dataset
 
 * Centrality tab
