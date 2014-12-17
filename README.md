@@ -39,6 +39,7 @@ Features that will be implemented:
   * Change node labels
   * Change node colours
   * More network estimation options
+  * Extend functions for more than 1 dataset
 
 * Centrality tab
   * Add asthetics of centrality plot
