@@ -22,5 +22,5 @@ library("qgraph")
 library("shinyapps")
 library("ggplot2")
 
-runGitHub( "NetworkApp", "JolandaKossakowski") 
+runGitHub("NetworkApp", "JolandaKossakowski") 
 

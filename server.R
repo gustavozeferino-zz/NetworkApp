@@ -7,123 +7,155 @@ library(ggplot2)
 
 shinyServer(
   function(input, output) {
-
+    ##############################
+    # Reactive variable defining #
+    ##############################
     
     # Define global data with estimation 
     data <- reactive({
       
-      inFile <- input$file1
-    
+      inFile <- input$input
+      
       if (is.null(inFile))
       {
         return(NULL)
       }
-      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)     
-  
+      
+      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote) 
       switch(input$method,
-            "Pearson Correlation" = cor(file, method = "pearson"))  
+             "Pearson Correlation" = cor(file, method = "pearson")) 
+    }) #exit data defining
+    
+    # Use chosen layout
+    lay <- reactive({
+      switch(input$layout,
+             "Circle" = "circle",
+             "Spring" = "spring",
+             "Grouped Circle" = "groups")
+    })
+    
+    lab <- reactive({
+      if(input$node_labels == TRUE)
+      {
+        names(data())
+      } else
+      {
+        FALSE
+      }     
+    })
+    
+    det <- reactive({
+      if(input$details == TRUE)
+      {
+        TRUE
+      } else
+      {
+        FALSE
+      }
+    })
+    
+    weight <- reactive ({
+      if(input$weighted == TRUE)
+      {
+        TRUE
+      } else
+      {
+        FALSE
+      }
+    })
+    
+    direct <- reactive({
+      if(input$direction == TRUE)
+      {
+        TRUE
+      } else
+      {
+        FALSE
+      }
+    })    
+    
+    tit <- reactive({
+      input$title     
+    })
+    
+    min <- reactive({
+      input$minimum 
+    })
+    
+    max <- reactive({
+      input$maximum 
+    })
+    
+    ct <- reactive({
+      input$cut})
+    
+    es <- reactive({
+      input$edgesize  
+    })
+    
+    ns <- reactive({
+      input$nodesize
+    })   
+    
+    graph <- reactive({
+      qgraph(data(),
+             layout = lay(), 
+             labels = lab(),
+             title = tit(),
+             minimum = min(),
+             maximum = max(),
+             cut = ct(),
+             details = det(),
+             esize = es(),
+             vsize = ns(),
+             weighted = weight(),
+             directed = direct(),
+             sampleSize = nrow(data()))
     })
     
     # Visualize network
-    output$network <- renderPlot({     
-      
-      # Use chosen layout
-      lay <- switch(input$layout,
-                    "Circle" = "circle",
-                    "Spring" = "spring",
-                    "Grouped Circle" = "groups")
-      
-      lab = NULL
-      if(input$node_labels == TRUE)
-      {
-        lab <- names(file())
-      } else
-      {
-        lab = FALSE
-      }
-      
-      det <- NULL
-      if(input$details == TRUE)
-      {
-        det = TRUE
-      } else
-      {
-        det = FALSE
-      }
-      
-      weight <- NULL
-      if(input$weighted == TRUE)
-      {
-        weight = TRUE
-      } else
-      {
-        weight = FALSE
-      }
-      
-      direct <- NULL
-      if(input$direction == TRUE)
-      {
-        direct = TRUE
-      } else
-      {
-        direct = FALSE
-      }
-      tit <- input$title      
-      min <- input$minimum        
-      max <- input$maximum        
-      ct <- input$cut      
-      es <- input$edgesize      
-      ns <- input$nodesize
+    output$network <- renderPlot({       
       
       #visualize network
-      q1 <- qgraph(data(),
-                   layout = lay, 
-                   labels = lab,
-                   title = tit,
-                   minimum = min,
-                   maximum = max,
-                   cut = ct,
-                   details = det,
-                   esize = es,
-                   vsize = ns,
-                   weighted = weight,
-                   directed = direct,
-                   sampleSize = nrow(data()))
-      
-      #download network image
-      output$downloadnetwork <- downloadHandler(
-        filename = function()
-        {
-          paste("Download", label = "network_image", class = ".pdf", sep = "") 
-        },
-        content = function(file) 
-        {
-          pdf(file)
-          qgraph(data(),
-                 layout = lay, 
-                 labels = lab,
-                 title = tit,
-                 minimum = min,
-                 maximum = max,
-                 cut = ct,
-                 details = det,
-                 esize = es,
-                 vsize = ns,
-                 weighted = weight,
-                 directed = direct,
-                 mar = c(2,2,2,2),
-                 sampleSize = nrow(data))
-          dev.off()
-        })
-    })
-
-#     # Print centrality plot
+      if(is.null(data()))
+      {
+        return(NULL)
+      } else
+      {
+        graph()
+      }
+    }) #exit visualizing network 
+    
+    #download network image
+    output$downloadnetwork <- downloadHandler(
+      filename = function()
+      {
+        paste("network", class = ".pdf", sep = "") 
+      },
+      content = function(file) 
+      {
+        pdf(file)
+        qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct(),
+               sampleSize = nrow(data()))
+        dev.off()
+      }) #exit download network plot
+    
+    # Print centrality plot
     output$centplot <- renderPlot({
-
-      q2 <- qgraph(data(), DoNotPlot = TRUE)
       
       # Plot centrality measures
-      c <- centralityPlot(q2)
+      c <- centralityPlot(graph())
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
@@ -133,46 +165,40 @@ shinyServer(
       {
         print(c)
       }
-    })
-
-      # Download centrality plot
-      output$downloadcentralityplot <- downloadHandler(
-                
-        filename = function()
-        {
-          paste("centrality_plot", class = ".pdf", sep = "") 
-        },
-        content = function(file) 
-        {
-          pdf(file)
-          centralityPlot(q2)
-          dev.off()
-        })      
-
-        # Print centrality table
-        output$centtable <- renderTable({
-                
-          q2 <- qgraph(data, DoNotPlot = TRUE)
-          
-            # Compute centrality table
-            t <- centralityTable(q2)
-            t <- reshape(t, timevar = "measure",
-                        idvar = c("graph", "node"),
-                        direction = "wide")
-            t <- t[, c(2, 4, 6, 8)]
-            colnames(t) <- c("Node", "Betweenness", "Closeness", "Strength")
-            return(t)
-        })
-
-          # Download centrality table
-          output$downloadcentralitytable <- downloadHandler(            
-            filename = function()
-            {
-              paste("centrality_table", class = ".csv", sep = "") 
-            },            
-            content = function(file) 
-            {
-              write.csv(t, file, row.names = FALSE)
-            })       
-       
-   })
+    }) # exit centrality plot  
+    
+    # Download centrality plot
+    output$downloadcentralityplot <- downloadHandler(
+      
+      filename = function()
+      {
+        paste("centrality_plot", class = ".pdf", sep = "") 
+      },
+      content = function(file) 
+      {
+        pdf(file)
+        centralityPlot(graph())
+        dev.off()
+      })     #exit download centrality plot  
+    
+    table <- reactive({      
+      reshape(centralityTable(graph()), timevar = "measure",
+              idvar = c("graph", "node"),
+              direction = "wide")[, c(2, 4, 6, 8)]
+    }) #exit centrality table (global variable)
+    
+    # Print centrality table
+    output$centtable <- renderTable({
+      print(table())
+    }) #exit centrality table 
+    
+    output$downloadcentralitytable <- downloadHandler(            
+      filename = function()
+      {
+        paste("centrality_table", class = ".csv", sep = "") 
+      },            
+      content = function(file) 
+      {
+        write.csv(table(), file, row.names = FALSE)
+      }) #exit download centrality table
+  }) #exit shinyservey
