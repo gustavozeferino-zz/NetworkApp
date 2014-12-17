@@ -121,26 +121,35 @@ shinyUI(pageWithSidebar(
                                     value = 0.6))),
 
                fluidRow(
-                 column(4,             
-                    # Plot graph details TRUE/FALSE
-                     checkboxInput("details",
-                              label = "Graph details",
-                              value = TRUE)),        
+                 column(4),             
+        
 
-               column(3,
-               # Select width edge
-               sliderInput("edgesize",
-                           label = "Edge size:",
-                           min = 0,
-                           max = 25,
-                           value = 1)),
+               column(3,               
+               # Plot graph details TRUE/FALSE
+               checkboxInput("details",
+                             label = "Graph details",
+                             value = TRUE)),
                column(3,
                # Select size of nodes
                sliderInput("nodesize",
                            label = "Node size:",
                            min = 0,
                            max = 25,
-                           value = 6.1))),
+                           value = 6.1)),
+               
+               fluidRow(
+                 column(4),
+                 
+                 column(3),
+                 
+                 column(3,
+                        # Select width edge
+                        sliderInput("edgesize",
+                                    label = "Edge size:",
+                                    min = 0,
+                                    max = 25,
+                                    value = 1)))),
+               
                br(),
                br()),
 
@@ -155,6 +164,19 @@ shinyUI(pageWithSidebar(
                checkboxInput("horizontal",
                              label = "Flip plot", 
                              value = FALSE),
+               
+               checkboxInput("strength",
+                             label = "Strength",
+                             value = TRUE),
+               
+               checkboxInput("betweenness",
+                             label = "Betweenness",
+                             value = TRUE),
+               
+               checkboxInput("closeness",
+                             label = "Closeness",
+                             value = TRUE),
+               
                tags$hr(),         
                downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
                br(),

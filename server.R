@@ -151,11 +151,33 @@ shinyServer(
         dev.off()
       }) #exit download network plot
     
+    # Set centrality measures
+    
+    stren <- reactive({
+      if(input$strength == TRUE)
+      {
+        "Strength"
+      }
+    })
+    
+    between <- reactive({
+      if(input$betweenness == TRUE)
+      {
+        "Betweenness"
+      }
+    })
+    
+    close <- reactive({
+      if(input$closeness == TRUE)
+      {
+        "Closeness"
+      }
+    })
     # Print centrality plot
     output$centplot <- renderPlot({
       
-      # Plot centrality measures
-      cent <- centralityPlot(graph())
+      # Plot centrality results
+      cent <- centralityPlot(graph(), include = c(stren(), between(), close()))
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
