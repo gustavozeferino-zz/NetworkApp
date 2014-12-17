@@ -79,7 +79,7 @@ runGitHub( "NetworkApp", "JolandaKossakowski")
 ```
 
 Current (known) bugs:
-
+* glasso estimation does not return a graph
 
 All features are implemented using the R-package qgraph version 1.3
 
