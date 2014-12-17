@@ -26,7 +26,7 @@ shinyUI(pageWithSidebar(
                    Tab='\t'),
                  '\t'),
     
-br(),
+    tags$hr(),
     
     # Select appropriate quotes
     radioButtons('quote', '',

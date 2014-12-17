@@ -155,15 +155,15 @@ shinyServer(
     output$centplot <- renderPlot({
       
       # Plot centrality measures
-      c <- centralityPlot(graph())
+      cent <- centralityPlot(graph())
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(c + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip())
+        print(cent + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip())
       } else
       {
-        print(c)
+        print(cent)
       }
     }) # exit centrality plot  
     
@@ -220,7 +220,7 @@ shinyServer(
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(c + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20)))
+        print(c + coord_flip() + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
       } else
       {
         print(c)
@@ -252,7 +252,7 @@ shinyServer(
       print(clusttable())
     }) #exit clustering table 
     
-    output$downloadcentralitytable <- downloadHandler(            
+    output$downloadclusteringtable <- downloadHandler(            
       filename = function()
       {
         paste("clustering_table", class = ".csv", sep = "") 
