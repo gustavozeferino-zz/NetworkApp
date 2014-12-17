@@ -55,6 +55,7 @@ br(),
                br(),
                br(),
                br(),
+               br(),
                fluidRow(
                  column(4,
                         # Insert title plot
@@ -150,14 +151,14 @@ br(),
                br(),
                br(),
                plotOutput("centplot"),
-                              
-               tags$hr(),
                
                checkboxInput("horizontal",
                              label = "Flip plot", 
                              value = FALSE),
                tags$hr(),         
-               downloadButton('downloadcentralityplot', 'Download Centrality Plot')),
+               downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
+               br(),
+               br()),
       
       
       tabPanel("Centrality Table",
