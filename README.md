@@ -24,6 +24,11 @@ Current available features:
   * Add second tab with centrality table and plot
   * Download centrality table and plot
 
+* Clustering tab
+  * Add third tab with clustering table and plot
+  * Download clustering table and plot
+
+
 Features that will be implemented:
 
 * Network visualization
@@ -37,8 +42,6 @@ Features that will be implemented:
   * Change asthetics of centrality plot
   
 * Clustering tab
-  * Add third tab with clustering table and plot
-  * Download clustering table and plot
   * Change asthetics of clustering plot
   
 Code for running the application:

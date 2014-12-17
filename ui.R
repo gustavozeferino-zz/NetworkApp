@@ -126,7 +126,22 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
                tags$hr(),
                downloadButton('downloadcentralitytable', 'Download Centrality Table')
-        )  
+        ),
+      
+      tabPanel("Clustering", 
+               plotOutput("clustplot"),
+               tableOutput("clusttable"),
+               
+               tags$hr(),
+               
+               checkboxInput("horizontal",
+                             label = "Flip plot", 
+                             value = FALSE),
+               tags$hr(),         
+               downloadButton('downloadclusteringplot', 'Download Clustering Plot'),
+               tags$hr(),
+               downloadButton('downloadclusteringtable', 'Download Clustering Table')
+        ) 
       )
     )  
   )

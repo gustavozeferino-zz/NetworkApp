@@ -160,7 +160,7 @@ shinyServer(
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(c + coord_flip())
+        print(c + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20)))
       } else
       {
         print(c)
@@ -181,7 +181,7 @@ shinyServer(
         dev.off()
       })     #exit download centrality plot  
     
-    table <- reactive({      
+    centtable <- reactive({      
       reshape(centralityTable(graph()), timevar = "measure",
               idvar = c("graph", "node"),
               direction = "wide")[, c(2, 4, 6, 8)]
@@ -189,7 +189,7 @@ shinyServer(
     
     # Print centrality table
     output$centtable <- renderTable({
-      print(table())
+      print(centtable())
     }) #exit centrality table 
     
     output$downloadcentralitytable <- downloadHandler(            
@@ -199,6 +199,57 @@ shinyServer(
       },            
       content = function(file) 
       {
-        write.csv(table(), file, row.names = FALSE)
+        write.csv(centtable(), file, row.names = FALSE)
       }) #exit download centrality table
+    
+    # Print clustering plot
+    output$clustplot <- renderPlot({
+      
+      # Plot centrality measures
+      c <- clusteringPlot(graph())
+      
+      # Flip plot if chosen
+      if(input$horizontal == TRUE)
+      {
+        print(c + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20)))
+      } else
+      {
+        print(c)
+      }
+    }) # exit centrality plot  
+    
+    # Download clustering plot
+    output$downloadclusteringplot <- downloadHandler(
+      
+      filename = function()
+      {
+        paste("clustering_plot", class = ".pdf", sep = "") 
+      },
+      content = function(file) 
+      {
+        pdf(file)
+        clusteringPlot(graph())
+        dev.off()
+      })     #exit download clustering plot  
+    
+    clusttable <- reactive({      
+      reshape(clusteringTable(graph()), timevar = "measure",
+              idvar = c("graph", "node"),
+              direction = "wide")[, c(2, 4, 6, 8, 10)]
+    }) #exit clustering table (global variable)
+    
+    # Print clustering table
+    output$clusttable <- renderTable({
+      print(clusttable())
+    }) #exit clustering table 
+    
+    output$downloadcentralitytable <- downloadHandler(            
+      filename = function()
+      {
+        paste("clustering_table", class = ".csv", sep = "") 
+      },            
+      content = function(file) 
+      {
+        write.csv(clusttable(), file, row.names = FALSE)
+      }) #exit download clustering table
   }) #exit shinyservey
