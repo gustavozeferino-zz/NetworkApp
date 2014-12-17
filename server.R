@@ -220,7 +220,7 @@ shinyServer(
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(c + coord_flip() + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+        print(c + coord_flip() + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)))
       } else
       {
         print(c)
