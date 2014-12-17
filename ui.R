@@ -201,10 +201,24 @@ shinyUI(pageWithSidebar(
                
                tags$hr(),
                
-               checkboxInput("horizontal",
-                             label = "Flip plot", 
-                             value = FALSE),
-               tags$hr(),         
+               checkboxInput("ws",
+                             label = "WS", 
+                             value = TRUE),
+               
+               checkboxInput("zhang",
+                             label = "Zhang",
+                             value = TRUE),
+               
+               checkboxInput("onnela",
+                             label = "Onnela",
+                             value = TRUE),
+               
+               checkboxInput("barrat",
+                             label = "Barrat",
+                             value = TRUE),               
+               
+               tags$hr(), 
+               
                downloadButton('downloadclusteringplot', 'Download Clustering Plot')),
       
       tabPanel("Clustering Table",

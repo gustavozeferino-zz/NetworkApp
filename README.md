@@ -23,11 +23,13 @@ Current available features:
 * Centrality tab
   * Add second tab with centrality table and plot
   * Download centrality table and plot
-
+  * Change asthetics of centrality plot
+  * Choose centrality measures 
+  
 * Clustering tab
   * Add third tab with clustering table and plot
   * Download clustering table and plot
-
+  * Change asthetics of clustering plot
 
 Features that will be implemented:
 
@@ -38,11 +40,10 @@ Features that will be implemented:
   * Change node colours
 
 * Centrality tab
-  * Choose centrality measures 
-  * Change asthetics of centrality plot
+  * Add asthetics of centrality plot
   
 * Clustering tab
-  * Change asthetics of clustering plot
+  * Add asthetics of clustering plot
   
 Code for running the application:
 

@@ -182,7 +182,7 @@ shinyServer(
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(cent + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip())
+        print(cent + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip())
       } else
       {
         print(cent)
@@ -201,12 +201,14 @@ shinyServer(
         if(input$horizontal == TRUE)
         {
           pdf(file)
-          centralityPlot(graph()) + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          g <- centralityPlot(graph(), print = FALSE) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          print(g)
           dev.off()
         } else
         {
           pdf(file)
-          centralityPlot(graph())
+          g <- centralityPlot(graph())
+          print(g)
           dev.off()
         }
 
@@ -233,11 +235,39 @@ shinyServer(
         write.csv(centtable(), file, row.names = FALSE)
       }) #exit download centrality table
     
+    wes <- reactive({
+      if(input$ws == TRUE)
+      {
+        "WS"
+      }
+    })
+    
+    zh <- reactive({
+      if(input$zhang == TRUE)
+      {
+        "Zhang"
+      }
+    })
+    
+    onn <- reactive({
+      if(input$onnela == TRUE)
+      {
+        "Onnela"
+      }
+    })
+    
+    bar <- reactive({
+      if(input$barrat == TRUE)
+      {
+        "Barrat"
+      }
+      
+    })
     # Print clustering plot
     output$clustplot <- renderPlot({
       
       # Plot centrality measures
-      c <- clusteringPlot(graph())
+      c <- clusteringPlot(graph(), include = c(wes(), zh(), onn(), bar()))
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
