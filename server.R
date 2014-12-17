@@ -124,7 +124,7 @@ shinyServer(
       {
         graph()
       }
-    }) #exit visualizing network 
+    }, width = "auto", height = 500) #exit visualizing network 
     
     #download network image
     output$downloadnetwork <- downloadHandler(
@@ -160,7 +160,7 @@ shinyServer(
       # Flip plot if chosen
       if(input$horizontal == TRUE)
       {
-        print(c + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20)))
+        print(c + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip())
       } else
       {
         print(c)
@@ -179,8 +179,7 @@ shinyServer(
         if(input$horizontal == TRUE)
         {
           pdf(file)
-          centralityPlot(graph()) + coord_flip() + theme(axis.text.x = element_text(size = 9, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 7), legend.text = element_text(size = 15), legend.title = element_text(size = 9), text = element_text(size = 10))
-  
+          centralityPlot(graph()) + theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           dev.off()
         } else
         {
@@ -189,7 +188,7 @@ shinyServer(
           dev.off()
         }
 
-      })     #exit download centrality plot  
+      }) #exit download centrality plot  
     
     centtable <- reactive({      
       reshape(centralityTable(graph()), timevar = "measure",
