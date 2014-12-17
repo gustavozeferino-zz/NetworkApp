@@ -21,9 +21,8 @@ shinyServer(
         return(NULL)
       }
       
-      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote) 
-      switch(input$method,
-             "Pearson Correlation" = cor(file, method = "pearson")) 
+      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      cov(file)
     }) #exit data defining
     
     # Use chosen layout
@@ -96,7 +95,13 @@ shinyServer(
     ns <- reactive({
       input$nodesize
     })   
-    
+
+    est <- reactive({
+      switch(input$method,
+           "Pearson Correlation" = "cor",
+           "Partial Correlation" = "pcor",
+           "GLASSO" = "glasso") 
+    })
     graph <- reactive({
       qgraph(data(),
              layout = lay(), 
@@ -110,7 +115,8 @@ shinyServer(
              vsize = ns(),
              weighted = weight(),
              directed = direct(),
-             sampleSize = nrow(data()))
+             sampleSize = nrow(data()),
+             graph = est())
     })
     
     # Visualize network
@@ -147,7 +153,8 @@ shinyServer(
                vsize = ns(),
                weighted = weight(),
                directed = direct(),
-               sampleSize = nrow(data()))
+               sampleSize = nrow(data()),
+               graph = est())
         dev.off()
       }) #exit download network plot
     

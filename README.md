@@ -80,9 +80,6 @@ runGitHub( "NetworkApp", "JolandaKossakowski")
 
 Current (known) bugs:
 
-* Flipped centrality plot wil not download as such
-* clusteringPlot returns an error
-
 
 All features are implemented using the R-package qgraph version 1.3
 

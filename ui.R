@@ -81,8 +81,10 @@ shinyUI(pageWithSidebar(
                         # Choose network estimation method
                         selectInput("method",
                                     label = "Network estimation method:",
-                                    choices = c("Pearson Correlation"),
-                                    selected = "Pearson Correlation")),
+                                    choices = c("Pearson Correlation", 
+                                                "Partial Correlation", 
+                                                "GLASSO"),
+                                    selected = "GLASSO")),
                        
                  column(3,
                         # Weighted graph TRUE/FALSE
