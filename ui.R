@@ -113,35 +113,40 @@ shinyUI(pageWithSidebar(
       tabPanel("Network Visualization", 
                plotOutput("network")),
       
-      tabPanel("Centrality", 
+      tabPanel("Centrality Plot", 
                plotOutput("centplot"),
+                              
+               tags$hr(),
+               
+               checkboxInput("horizontal",
+                             label = "Flip plot", 
+                             value = FALSE),
+               tags$hr(),         
+               downloadButton('downloadcentralityplot', 'Download Centrality Plot')),
+      tabPanel("Centrality Table",
                tableOutput("centtable"),
                
                tags$hr(),
                
+               downloadButton('downloadcentralitytable', 'Download Centrality Table')),
+      
+      tabPanel("Clustering Plot", 
+               plotOutput("clustplot"),
+               
+               tags$hr(),
+               
                checkboxInput("horizontal",
                              label = "Flip plot", 
                              value = FALSE),
                tags$hr(),         
-               downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
-               tags$hr(),
-               downloadButton('downloadcentralitytable', 'Download Centrality Table')
-        ),
+               downloadButton('downloadclusteringplot', 'Download Clustering Plot')),
       
-      tabPanel("Clustering", 
-               plotOutput("clustplot"),
+      tabPanel("Clustering Table",
                tableOutput("clusttable"),
                
                tags$hr(),
                
-               checkboxInput("horizontal",
-                             label = "Flip plot", 
-                             value = FALSE),
-               tags$hr(),         
-               downloadButton('downloadclusteringplot', 'Download Clustering Plot'),
-               tags$hr(),
-               downloadButton('downloadclusteringtable', 'Download Clustering Table')
-        ) 
+               downloadButton('downloadclusteringtable', 'Download Clustering Table'))
       )
     )  
   )
