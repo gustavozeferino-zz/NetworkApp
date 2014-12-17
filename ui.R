@@ -37,9 +37,6 @@ shinyUI(pageWithSidebar(
     
     tags$hr(),
     
-    
-    tags$hr(),
-    
     # Download network as pdf
     downloadButton('downloadnetwork', 'Download PDF')
   ),
@@ -84,7 +81,7 @@ shinyUI(pageWithSidebar(
                                     choices = c("Pearson Correlation", 
                                                 "Partial Correlation", 
                                                 "GLASSO"),
-                                    selected = "GLASSO")),
+                                    selected = "Partial Correlation")),
                        
                  column(3,
                         # Weighted graph TRUE/FALSE

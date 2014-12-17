@@ -22,7 +22,6 @@ shinyServer(
       }
       
       file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
-      cov(file)
     }) #exit data defining
     
     # Use chosen layout
@@ -98,12 +97,14 @@ shinyServer(
 
     est <- reactive({
       switch(input$method,
-           "Pearson Correlation" = "cor",
-           "Partial Correlation" = "pcor",
-           "GLASSO" = "glasso") 
+             "Pearson Correlation" = "cor",
+             "Partial Correlation" = "pcor",
+             "GLASSO" = "glasso")
+
     })
+    
     graph <- reactive({
-      qgraph(data(),
+      qgraph(cor(data()),
              layout = lay(), 
              labels = lab(),
              title = tit(),
@@ -141,7 +142,7 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
-        qgraph(data(),
+        qgraph(cor(data()),
                layout = lay(), 
                labels = lab(),
                title = tit(),

@@ -1,10 +1,11 @@
 ## READ ME for Shiny Network Application
 
-This Shiny application visualizes a graph structure for a dataset. The user can adjust all features of the visualized graph and download a pdf version of it. Furthermore, centrality analyses will automatically be performed; a centrality table and plot will be visualized in the second tab and both can be downloaded. The third tab visualizes the Clustering table and plot; these can also be downloaded. 
+This Shiny application visualizes a graph structure for a dataset. The user can adjust all features of the visualized graph and download a pdf version of it. Furthermore, centrality analyses will automatically be performed; a centrality table and plot will be visualized in the second and third tab and both can be downloaded. The fourth and fifth tab visualizes the Clustering table and plot; these can also be downloaded. Code for running the application can be found in the runapp.R file.
 
 This application is a project that is under construction, features will be added along the way. If you have any suggestions as to what features are useful to be added, please feel free to contact me at mail[at]jolandakossakowski[dot]eu.
 
-Current available features:
+## Current available features:
+
 * Network Estimation
   * Add a title
   * Change the graph layout
@@ -32,7 +33,7 @@ Current available features:
   * Download clustering table and plot
   * Change asthetics of clustering plot
 
-Features that will be implemented:
+## Features that will be implemented:
 
 * Network visualization
   * Enter group specification that will be visualized
@@ -47,43 +48,9 @@ Features that will be implemented:
 * Clustering tab
   * Add asthetics of clustering plot
   
-Code for running the application:
+All features are implemented using the R-package qgraph version 1.3.1.
 
-```
-if(!"shiny" %in% installed.packages()) 
-{ 
-  install.packages("shiny") 
-}
-
-if(!"qgraph" %in% installed.packages()) 
-{ 
-  install.packages("qgraph") 
-}
-
-if(!"ggplot2" %in% installed.packages()) 
-{ 
-  install.packages("ggplot2") 
-}
-
-if (!require("devtools"))
-  install.packages("devtools")
-devtools::install_github("rstudio/shinyapps")
-
-library("shiny")
-library("qgraph")
-library("shinyapps")
-library("ggplot2")
-
-runGitHub( "NetworkApp", "JolandaKossakowski") 
-
-```
-
-Current (known) bugs:
-* glasso estimation does not return a graph
-
-All features are implemented using the R-package qgraph version 1.3
-
-References:
+## References:
 
 Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D., & Borsboom, D. (2012) qgraph: Network Visualizations of Relationships in Psychometric Data. *Journal of Statistical Software, 48*, 1 - 18.
 
