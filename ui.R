@@ -8,7 +8,7 @@ shinyUI(pageWithSidebar(
   titlePanel("Network App"),
   sidebarPanel(
     # Upload file
-    fileInput('file1', 'Choose CSV File',
+    fileInput('input', 'Choose CSV File',
               accept=c('text/csv', 
                        'text/comma-separated-values,text/plain', 
                        '.csv')),
@@ -117,19 +117,17 @@ shinyUI(pageWithSidebar(
                plotOutput("centplot"),
                tableOutput("centtable"),
                
-              tags$hr(),
-                 
-              checkboxInput("horizontal",
+               tags$hr(),
+               
+               checkboxInput("horizontal",
                              label = "Flip plot", 
-                            value = FALSE),
-              tags$hr(),         
-              downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
-              tags$hr(),
-              downloadButton('downloadcentralitytable', 'Download Centrality Table')
+                             value = FALSE),
+               tags$hr(),         
+               downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
+               tags$hr(),
+               downloadButton('downloadcentralitytable', 'Download Centrality Table')
         )  
       )
     )  
   )
 )
-
-
