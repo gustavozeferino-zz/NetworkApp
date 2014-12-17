@@ -179,7 +179,7 @@ shinyServer(
         if(input$horizontal == TRUE)
         {
           pdf(file)
-          centralityPlot(graph() + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20))))
+          centralityPlot(graph()) + coord_flip() + theme(axis.text.x = element_text(size = 15, angle = 45, hjust = 1, vjust = 1), axis.text.y = element_text(size = 10), legend.text = element_text(size = 15), legend.title = element_text(size = 15), text = element_text(size = 20)))
           dev.off()
         } else
         {
