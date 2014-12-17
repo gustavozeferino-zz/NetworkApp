@@ -4,6 +4,7 @@ library(shiny)
 library(shinyapps)
 library(qgraph)
 library(ggplot2)
+library(huge)
 
 shinyServer(
   function(input, output) {
@@ -102,9 +103,18 @@ shinyServer(
              "GLASSO" = "glasso")
 
     })
-    
+
+    norm <- reactive({
+      if(input$normal == FALSE)
+      {
+        cor(huge.npn(data()))
+      } else
+      {
+        cor(data())
+      }
+    })
     graph <- reactive({
-      qgraph(cor(data()),
+      qgraph(norm(),
              layout = lay(), 
              labels = lab(),
              title = tit(),
@@ -142,7 +152,7 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
-        qgraph(cor(data()),
+        qgraph(norm(),
                layout = lay(), 
                labels = lab(),
                title = tit(),

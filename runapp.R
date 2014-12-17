@@ -13,6 +13,11 @@ if(!"ggplot2" %in% installed.packages())
   install.packages("ggplot2") 
 }
 
+if(!"huge" %in% installed.packages()) 
+{ 
+  install.packages("huge") 
+}
+
 if (!require("devtools"))
   install.packages("devtools")
 devtools::install_github("rstudio/shinyapps")

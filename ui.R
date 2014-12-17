@@ -3,6 +3,8 @@
 library(shiny)
 library(shinyapps)
 library(qgraph)
+library(ggplot2)
+library(huge)
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
@@ -42,7 +44,7 @@ shinyUI(pageWithSidebar(
   ),
   mainPanel(
     tabsetPanel(
-      tabPanel("Network Visualization", 
+      tabPanel("Network", 
                br(),
                br(),
                plotOutput("network"),
@@ -62,13 +64,13 @@ shinyUI(pageWithSidebar(
                  column(3,
                         # Use node labels TRUE/FALSE
                         checkboxInput("node_labels",
-                                      label = "Node labels", 
+                                      label = "Node Labels", 
                                       value = TRUE)),
                      
                  column(3,
                         # Select minimum value edge weights
                         sliderInput("minimum",
-                                    label = "Minimum edge weight:",
+                                    label = "Minimum Edge Weight:",
                                     min = 0,
                                     max = 1,
                                     value = 0))),
@@ -77,7 +79,7 @@ shinyUI(pageWithSidebar(
                  column(4,
                         # Choose network estimation method
                         selectInput("method",
-                                    label = "Network estimation method:",
+                                    label = "Network Estimation Method",
                                     choices = c("Pearson Correlation", 
                                                 "Partial Correlation", 
                                                 "GLASSO"),
@@ -86,13 +88,13 @@ shinyUI(pageWithSidebar(
                  column(3,
                         # Weighted graph TRUE/FALSE
                         checkboxInput("weighted",
-                                      label = "Edge weights",
+                                      label = "Edge Weights",
                                       value = TRUE)),
                         
                  column(3,
                         # Select maximum value edge weights
                         sliderInput("maximum",
-                                    label = "Maximum edge weight:",
+                                    label = "Maximum Edge Weight:",
                                     min = 0,
                                     max = 1,
                                     value = 1))),
@@ -101,20 +103,20 @@ shinyUI(pageWithSidebar(
                  column(4,
                         # Select network layout
                         selectInput("layout",
-                                    label = "Network layout:",
+                                    label = "Network Layout",
                                     choices = c("Circle", "Spring", "Grouped Circle"),
                                     selected = "Spring")),
                         
                 column(3,        
                         # Directed edges TRUE/FALSE
                         checkboxInput("direction",
-                                      label = "Directed edges",
+                                      label = "Directed Edges",
                                       value = FALSE)),
                         
                 column(3,
                         # Select cut-off value edge weights
                         sliderInput("cut",
-                                    label = "Edge cut-off value",
+                                    label = "Edge Cut-Off Value",
                                     min = 0,
                                     max = 1,
                                     value = 0.6))),
@@ -126,12 +128,12 @@ shinyUI(pageWithSidebar(
                column(3,               
                # Plot graph details TRUE/FALSE
                checkboxInput("details",
-                             label = "Graph details",
+                             label = "Graph Details",
                              value = TRUE)),
                column(3,
                # Select size of nodes
                sliderInput("nodesize",
-                           label = "Node size:",
+                           label = "Node Size:",
                            min = 0,
                            max = 25,
                            value = 6.1)),
@@ -139,12 +141,15 @@ shinyUI(pageWithSidebar(
                fluidRow(
                  column(4),
                  
-                 column(3),
+                 column(3,
+                        checkboxInput("normal",
+                                      label = "Non-Paranormal Transformation",
+                                      value = TRUE)),
                  
                  column(3,
                         # Select width edge
                         sliderInput("edgesize",
-                                    label = "Edge size:",
+                                    label = "Edge Size:",
                                     min = 0,
                                     max = 25,
                                     value = 1)))),

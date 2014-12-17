@@ -21,6 +21,7 @@ This application is a project that is under construction, features will be added
   * Download pdf of graph
   * Upload your own dataset
   * More network estimation options
+  * Option for performing non-paranormal transformation
   
 * Centrality tab
   * Add second tab with centrality table and plot
