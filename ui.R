@@ -1,10 +1,9 @@
 ## Network App ##
 
-library(shiny)
-library(shinyapps)
-library(qgraph)
-library(ggplot2)
-library(huge)
+library("shiny")
+library("qgraph")
+library("ggplot2")
+library("huge")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
