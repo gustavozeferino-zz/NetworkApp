@@ -106,7 +106,7 @@ shinyServer(
     })
 
     norm <- reactive({
-      if(input$normal == FALSE)
+      if(input$normal == TRUE)
       {
         cor(huge.npn(data()))
       } else
@@ -170,8 +170,7 @@ shinyServer(
         dev.off()
       }) #exit download network plot
     
-    # Set centrality measures
-    
+    # Set centrality measures 
     stren <- reactive({
       if(input$strength == TRUE)
       {
@@ -233,10 +232,28 @@ shinyServer(
 
       }) #exit download centrality plot  
     
-    centtable <- reactive({      
+    centtable <- reactive({  
+      ncol <- rep(FALSE, times = 8)
+      
+      ncol[2] = TRUE
+      if(input$strength == TRUE)
+      {
+        ncol[8] = TRUE
+      }
+      if(input$betweenness == TRUE)
+      {
+        ncol[4] = TRUE
+      }
+      if(input$closeness == TRUE)
+      {
+        ncol[6] = TRUE
+      }
+     
       reshape(centralityTable(graph()), timevar = "measure",
               idvar = c("graph", "node"),
-              direction = "wide")[, c(2, 4, 6, 8)]
+              direction = "wide")[, ncol]
+      
+
     }) #exit centrality table (global variable)
     
     # Print centrality table
@@ -312,10 +329,29 @@ shinyServer(
         dev.off()
       })     #exit download clustering plot  
     
-    clusttable <- reactive({      
+    clusttable <- reactive({  
+      ncol <- rep(FALSE, times = 10)
+      
+      ncol[2] = TRUE
+      if(input$ws == TRUE)
+      {
+        ncol[4] = TRUE
+      }
+      if(input$zhang == TRUE)
+      {
+        ncol[6] = TRUE
+      }
+      if(input$onnela == TRUE)
+      {
+        ncol[8] = TRUE
+      }
+      if(input$barrat == TRUE)
+      {
+        ncol[10] = TRUE
+      }
       reshape(clusteringTable(graph()), timevar = "measure",
               idvar = c("graph", "node"),
-              direction = "wide")[, c(2, 4, 6, 8, 10)]
+              direction = "wide")[, ncol]
     }) #exit clustering table (global variable)
     
     # Print clustering table

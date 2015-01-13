@@ -35,6 +35,7 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
   * Add third tab with clustering table and plot
   * Download clustering table and plot
   * Change asthetics of clustering plot
+  * Choose clustering measures 
 
 ## Features that will be implemented:
 

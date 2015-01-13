@@ -144,7 +144,7 @@ shinyUI(pageWithSidebar(
                  column(3,
                         checkboxInput("normal",
                                       label = "Non-Paranormal Transformation",
-                                      value = TRUE)),
+                                      value = FALSE)),
                  
                  column(3,
                         # Select width edge
@@ -192,6 +192,18 @@ shinyUI(pageWithSidebar(
                br(),
                tableOutput("centtable"),
                
+               checkboxInput("strength",
+                             label = "Strength",
+                             value = TRUE),
+               
+               checkboxInput("betweenness",
+                             label = "Betweenness",
+                             value = TRUE),
+               
+               checkboxInput("closeness",
+                             label = "Closeness",
+                             value = TRUE),
+               
                tags$hr(),
                
                downloadButton('downloadcentralitytable', 'Download Centrality Table'),
@@ -204,6 +216,10 @@ shinyUI(pageWithSidebar(
                plotOutput("clustplot"),
                
                tags$hr(),
+               
+               checkboxInput("horizontal",
+                             label = "Flip plot", 
+                             value = FALSE),
                
                checkboxInput("ws",
                              label = "WS", 
@@ -229,6 +245,22 @@ shinyUI(pageWithSidebar(
                br(),
                br(),
                tableOutput("clusttable"),
+               
+               checkboxInput("ws",
+                             label = "WS", 
+                             value = TRUE),
+               
+               checkboxInput("zhang",
+                             label = "Zhang",
+                             value = TRUE),
+               
+               checkboxInput("onnela",
+                             label = "Onnela",
+                             value = TRUE),
+               
+               checkboxInput("barrat",
+                             label = "Barrat",
+                             value = TRUE),
                
                tags$hr(),
                
