@@ -4,6 +4,8 @@ This Shiny application visualizes a graph structure for a dataset. The user can 
 
 This application is a project that is under construction, features will be added along the way. If you have any suggestions as to what features are useful to be added, please feel free to contact me at mail[at]jolandakossakowski[dot]eu.
 
+Version 0.1 of this application has now been released. Visit https://jolandakos.shinyapps.io/NetworkApp/ to try it out!
+
 ## Current available features:
 
 * Network Estimation

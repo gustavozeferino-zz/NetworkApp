@@ -1,15 +1,16 @@
 ## Network App ##
 
 library("shiny")
-library("qgraph")
+library("devtools")
 library("ggplot2")
 library("huge")
+library("qgraph")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
   sidebarPanel(position = "right",
     # Upload file
-    fileInput('input', 'Choose CSV File',
+    fileInput('input', 'Choose CSV or TXT File',
               accept=c('text/csv', 
                        'text/comma-separated-values,text/plain', 
                        '.csv')),

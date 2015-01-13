@@ -1,9 +1,11 @@
 ## Network App ##
 
 library("shiny")
-library("qgraph")
+library("devtools")
 library("ggplot2")
 library("huge")
+library("qgraph")
+
 
 shinyServer(
   function(input, output) {
