@@ -59,7 +59,8 @@ All features are implemented using the R-package qgraph version 1.3.1.
 ## Latest Updates
 
 UPDATE (01-14-2015):
-Fixed bug for uploading files that uses whitespace as separation
+* Fixed bug for uploading files that uses whitespace as separation
+* Added an example dataset for users to download and to upload into the app
 
 ## References:
 

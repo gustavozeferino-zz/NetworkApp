@@ -5,6 +5,7 @@ library("devtools")
 library("ggplot2")
 library("huge")
 library("qgraph")
+library("psych")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
@@ -41,7 +42,10 @@ shinyUI(pageWithSidebar(
     tags$hr(),
     
     # Download network as pdf
-    downloadButton('downloadnetwork', 'Download PDF')
+    downloadButton('downloadnetwork', 'Download PDF'),
+    
+    # Download example data
+    downloadButton('downloadexample', 'Download Example Data')
   ),
   mainPanel(
     tabsetPanel(

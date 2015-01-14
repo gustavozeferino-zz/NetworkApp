@@ -5,6 +5,7 @@ library("devtools")
 library("ggplot2")
 library("huge")
 library("qgraph")
+library("psych")
 
 
 shinyServer(
@@ -168,6 +169,21 @@ shinyServer(
                graph = est())
         dev.off()
       }) #exit download network plot
+    
+    # Download example dataset
+    exampledata <- reactive({
+      bfi
+    })
+    
+    output$downloadexample <- downloadHandler(
+      filename = function()
+      {
+        paste("bfi", class = ".csv", sep = "") 
+      },
+      content = function(file) 
+      {
+        write.csv(exampledata(), file)
+      }) #exit download example dataset
     
     # Set centrality measures 
     stren <- reactive({
