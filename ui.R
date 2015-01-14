@@ -10,46 +10,52 @@ library("psych")
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
   sidebarPanel(position = "right",
-    # Upload file
-    fileInput('input', 'Choose CSV or TXT File',
-              accept=c('text/csv', 
-                       'text/comma-separated-values,text/plain', 
-                       '.csv')),
-    
-    tags$hr(),
-    # Contains the file a header? 
-    checkboxInput('header', 'Header', TRUE),
-    
-    tags$hr(),
-    
-    # Select separator
-    radioButtons('sep', '',
-                 c(Comma=',',
-                   Semicolon=';',
-                   Tab='\t',
-                   Whitespace = ''),
-                 '\t'),
-    
-    tags$hr(),
-    
-    # Select appropriate quotes
-    radioButtons('quote', '',
-                 c(None='',
-                   'Double Quote'='"',
-                   'Single Quote'="'"),
-                 '"'),
-    
-    # Specify coding for NAs
-    textInput("missing",
-              label = "Missing value code:"),
-    
-    tags$hr(),
-    
-    # Download network as pdf
-    downloadButton('downloadnetwork', 'Download PDF'),
-    
-    # Download example data
-    downloadButton('downloadexample', 'Download Example Data')
+               # Upload file
+               fileInput('input', 'Choose CSV or TXT File',
+                         accept=c('text/csv', 
+                                  'text/comma-separated-values,text/plain', 
+                                  '.csv')),
+               
+               # Specify kind of data
+               selectInput('sortdata', 
+                           label = "Specify the kind of data that is uploaded:",
+                           choices = list("Raw Data",
+                                          "Adjacency Matrix",
+                                          "Edgelist"), selected = "Adjacency Matrix"),   
+               tags$hr(),
+               # Contains the file a header? 
+               checkboxInput('header', 'Header', TRUE),
+               
+               tags$hr(),
+               
+               # Select separator
+               radioButtons('sep', '',
+                            c(Comma=',',
+                              Semicolon=';',
+                              Tab='\t',
+                              Whitespace = ''),
+                            '\t'),
+               
+               tags$hr(),
+               
+               # Select appropriate quotes
+               radioButtons('quote', '',
+                            c(None='',
+                              'Double Quote'='"',
+                              'Single Quote'="'"),
+                            '"'),
+               
+               # Specify coding for NAs
+               textInput("missing",
+                         label = "Missing value code:"),
+               
+               tags$hr(),
+               
+               # Download network as pdf
+               downloadButton('downloadnetwork', 'Download PDF'),
+               
+               # Download example data
+               downloadButton('downloadexample', 'Download Example Data')
   ),
   mainPanel(
     tabsetPanel(
@@ -69,13 +75,13 @@ shinyUI(pageWithSidebar(
                         # Insert title plot
                         textInput("title",
                                   label = "Title:")),
-                
+                 
                  column(3,
                         # Use node labels TRUE/FALSE
                         checkboxInput("node_labels",
                                       label = "Node Labels", 
                                       value = TRUE)),
-                     
+                 
                  column(3,
                         # Select minimum value edge weights
                         sliderInput("minimum",
@@ -93,13 +99,13 @@ shinyUI(pageWithSidebar(
                                                 "Partial Correlation", 
                                                 "GLASSO"),
                                     selected = "Partial Correlation")),
-                       
+                 
                  column(3,
                         # Weighted graph TRUE/FALSE
                         checkboxInput("weighted",
                                       label = "Edge Weights",
-                                      value = TRUE)),
-                        
+                                      value = FALSE)),
+                 
                  column(3,
                         # Select maximum value edge weights
                         sliderInput("maximum",
@@ -115,60 +121,60 @@ shinyUI(pageWithSidebar(
                                     label = "Network Layout",
                                     choices = c("Circle", "Spring", "Grouped Circle"),
                                     selected = "Spring")),
-                        
-                column(3,        
+                 
+                 column(3,        
                         # Directed edges TRUE/FALSE
                         checkboxInput("direction",
                                       label = "Directed Edges",
                                       value = FALSE)),
-                        
-                column(3,
+                 
+                 column(3,
                         # Select cut-off value edge weights
                         sliderInput("cut",
                                     label = "Edge Cut-Off Value",
                                     min = 0,
                                     max = 1,
                                     value = 0.6))),
-
-               fluidRow(
-                 column(4),             
-        
-
-               column(3,               
-               # Plot graph details TRUE/FALSE
-               checkboxInput("details",
-                             label = "Graph Details",
-                             value = TRUE)),
-               column(3,
-               # Select size of nodes
-               sliderInput("nodesize",
-                           label = "Node Size:",
-                           min = 0,
-                           max = 25,
-                           value = 6.1)),
                
                fluidRow(
-                 column(4),
+                 column(4),             
                  
-                 column(3,
-                        checkboxInput("normal",
-                                      label = "Non-Paranormal Transformation",
+                 
+                 column(3,               
+                        # Plot graph details TRUE/FALSE
+                        checkboxInput("details",
+                                      label = "Graph Details",
                                       value = FALSE)),
-                 
                  column(3,
-                        # Select width edge
-                        sliderInput("edgesize",
-                                    label = "Edge Size:",
+                        # Select size of nodes
+                        sliderInput("nodesize",
+                                    label = "Node Size:",
                                     min = 0,
                                     max = 25,
-                                    value = 1)))),
+                                    value = 6.1)),
+                 
+                 fluidRow(
+                   column(4),
+                   
+                   column(3,
+                          checkboxInput("normal",
+                                        label = "Non-Paranormal Transformation",
+                                        value = FALSE)),
+                   
+                   column(3,
+                          # Select width edge
+                          sliderInput("edgesize",
+                                      label = "Edge Size:",
+                                      min = 0,
+                                      max = 25,
+                                      value = 1)))),
                
                br(),
                br()),
-
       
       
-  
+      
+      
       tabPanel("Centrality Plot", 
                br(),
                br(),
@@ -180,7 +186,7 @@ shinyUI(pageWithSidebar(
                
                checkboxInput("strength",
                              label = "Strength",
-                             value = TRUE),
+                             value = FALSE),
                
                checkboxInput("betweenness",
                              label = "Betweenness",
@@ -189,6 +195,14 @@ shinyUI(pageWithSidebar(
                checkboxInput("closeness",
                              label = "Closeness",
                              value = TRUE),
+               
+               checkboxInput("indegree",
+                             label = "In Degree",
+                             value = FALSE),
+               
+               checkboxInput("outdegree",
+                             label = "Out Degree",
+                             value = FALSE),
                
                tags$hr(),         
                downloadButton('downloadcentralityplot', 'Download Centrality Plot'),
@@ -201,17 +215,27 @@ shinyUI(pageWithSidebar(
                br(),
                tableOutput("centtable"),
                
-               checkboxInput("strength",
+               checkboxInput("strengthtab",
                              label = "Strength",
-                             value = TRUE),
+                             value = FALSE),
                
-               checkboxInput("betweenness",
+               checkboxInput("betweennesstab",
                              label = "Betweenness",
                              value = TRUE),
                
-               checkboxInput("closeness",
+               checkboxInput("closenesstab",
                              label = "Closeness",
                              value = TRUE),
+               
+               checkboxInput("indegreetab",
+                             label = "In Degree",
+                             value = FALSE),
+               
+               checkboxInput("outdegreetab",
+                             label = "Out Degree",
+                             value = FALSE),
+               
+               
                
                tags$hr(),
                
@@ -255,19 +279,19 @@ shinyUI(pageWithSidebar(
                br(),
                tableOutput("clusttable"),
                
-               checkboxInput("ws",
+               checkboxInput("wstab",
                              label = "WS", 
                              value = TRUE),
                
-               checkboxInput("zhang",
+               checkboxInput("zhangtab",
                              label = "Zhang",
                              value = TRUE),
                
-               checkboxInput("onnela",
+               checkboxInput("onnelatab",
                              label = "Onnela",
                              value = TRUE),
                
-               checkboxInput("barrat",
+               checkboxInput("barrattab",
                              label = "Barrat",
                              value = TRUE),
                
@@ -276,7 +300,9 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadclusteringtable', 'Download Clustering Table'),
                br(),
                br())
-      )
-    )  
-  )
+    )
+  )  
 )
+)
+
+

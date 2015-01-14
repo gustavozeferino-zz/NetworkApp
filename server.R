@@ -114,37 +114,22 @@ shinyServer(
     })   
 
     est <- reactive({
-      switch(input$method,
-             "Pearson Correlation" = "cor",
-             "Partial Correlation" = "pcor",
-             "GLASSO" = "glasso")
+        switch(input$method,
+               "Pearson Correlation" = "cor",
+               "Partial Correlation" = "pcor",
+               "GLASSO" = "glasso")    
     })
 
     norm <- reactive({
-      if(input$normal == TRUE)
-      {
-        cor(huge.npn(data()), use = "pairwise.complete.obs")
-      } else
-      {
-        cor(data(), use = "pairwise.complete.obs")
-      }
+        if(input$normal == TRUE)
+        {
+          cor(huge.npn(data()), use = "pairwise.complete.obs")
+        } else
+        {
+          cor(data(), use = "pairwise.complete.obs")
+        }
     })
-    graph <- reactive({
-      qgraph(norm(),
-             layout = lay(), 
-             labels = lab(),
-             title = tit(),
-             minimum = min(),
-             maximum = max(),
-             cut = ct(),
-             details = det(),
-             esize = es(),
-             vsize = ns(),
-             weighted = weight(),
-             directed = direct(),
-             sampleSize = nrow(data()),
-             graph = est())
-    })
+    
     
     # Visualize network
     output$network <- renderPlot({       
@@ -153,9 +138,50 @@ shinyServer(
       if(is.null(data()))
       {
         return(NULL)
-      } else
+      } else if(input$sortdata == "Raw Data")
       {
-        graph()
+          qgraph(norm(),
+                 layout = lay(), 
+                 labels = lab(),
+                 title = tit(),
+                 minimum = min(),
+                 maximum = max(),
+                 cut = ct(),
+                 details = det(),
+                 esize = es(),
+                 vsize = ns(),
+                 weighted = weight(),
+                 directed = direct(),
+                 sampleSize = nrow(data()),
+                 graph = est())
+      } else if(input$sortdata == "Adjacency Matrix")
+      {
+        qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct())
+      } else if(input$sortdata == "Edgelist")
+      {
+        qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct())
       }
     }, width = "auto", height = 500) #exit visualizing network 
     
@@ -168,6 +194,8 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
+       if(input$sortdata == "Raw Data")
+      {
         qgraph(norm(),
                layout = lay(), 
                labels = lab(),
@@ -182,6 +210,35 @@ shinyServer(
                directed = direct(),
                sampleSize = nrow(data()),
                graph = est())
+      } else if(input$sortdata == "Adjacency Matrix")
+      {
+        qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct())
+      } else if(input$sortdata == "Edgelist")
+      {
+        qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct())
+      }
         dev.off()
       }) #exit download network plot
     
@@ -200,12 +257,15 @@ shinyServer(
         write.csv(exampledata(), file)
       }) #exit download example dataset
     
-    # Set centrality measures 
+    # Set centrality measures for plot
     stren <- reactive({
-      if(input$strength == TRUE)
+      if(input$sortdata == "Raw Data")
       {
-        "Strength"
-      }
+        if(input$strength == TRUE)
+        {
+          "Strength"
+        }
+      } 
     })
     
     between <- reactive({
@@ -221,11 +281,52 @@ shinyServer(
         "Closeness"
       }
     })
+    
+    indeg <- reactive({
+      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      {
+        if(input$indegree == TRUE)
+        {
+          "InDegree"
+        }
+      }
+    })
+    
+    outdeg <- reactive({
+      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      {
+        if(input$outdegree == TRUE)
+        {
+          "OutDegree"
+        }
+      }
+    })
+    
     # Print centrality plot
     output$centplot <- renderPlot({
       
       # Plot centrality results
-      cent <- centralityPlot(graph(), include = c(stren(), between(), close()))
+      if(input$sortdata == "Raw Data")
+      {
+        cent <- centralityPlot(qgraph(norm(),
+               sampleSize = nrow(data()),
+               graph = est(),
+               weighted = weight(),
+               directed = direct(), 
+               DoNotPlot = TRUE), include = c(stren(), between(), close()))
+      } else if(input$sortdata == "Adjacency Matrix")
+      {
+        cent <- centralityPlot(qgraph(data(),
+                                      weighted = weight(),
+                                      directed = direct(),
+                                      DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()))
+      } else if(input$sortdata == "Edgelist")
+      {
+        cent <- centralityPlot(qgraph(data(),
+                                      weighted = weight(),
+                                      directed = direct(),
+                                      DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()))
+      }
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
@@ -249,37 +350,142 @@ shinyServer(
         if(input$horizontal == TRUE)
         {
           pdf(file)
-          g <- centralityPlot(graph(), print = FALSE) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          if(input$sortdata == "Raw Data")
+          {
+            g <- centralityPlot(qgraph(norm(),
+                                      sampleSize = nrow(data()),
+                                       graph = est(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                      DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          } else if(input$sortdata == "Adjacency Matrix")
+          {
+            g <- centralityPlot(qgraph(data(), 
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          } else if(input$sortdata == "Edgelist")
+          {
+            g <- centralityPlot(qgraph(data(), 
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          }
           print(g)
           dev.off()
         } else
         {
           pdf(file)
-          g <- centralityPlot(graph())
+          if(input$sortdata == "Raw Data")
+          {
+            g <- centralityPlot(qgraph(norm(),
+                                       sampleSize = nrow(data()),
+                                       graph = est(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
+          } else if(input$sortdata == "Adjacency Matrix")
+          {
+            g <- centralityPlot(qgraph(data(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
+          } else if(input$sortdata == "Edgelist")
+          {
+            g <- centralityPlot(qgraph(data(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg())) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
+          }
           print(g)
           dev.off()
         }
 
       }) #exit download centrality plot  
     
+    # Set centrality measures for table
+    strentab <- reactive({
+      if(input$strengthtab == TRUE)
+      {
+        "Strength"
+      }
+    })
+    
+    betweentab <- reactive({
+      if(input$betweennesstab == TRUE)
+      {
+        "Betweenness"
+      }
+    })
+    
+    closetab <- reactive({
+      if(input$closenesstab == TRUE)
+      {
+        "Closeness"
+      }
+    })
+
+    
     centtable <- reactive({  
-      ncol <- rep(FALSE, times = 8)
+      ncol <- rep(FALSE, times = 10)
       
       ncol[2] = TRUE
-      if(input$strength == TRUE)
+      if(input$sortdata == "Raw Data")
       {
-        ncol[8] = TRUE
+        if(input$strengthtab == TRUE)
+        {
+          ncol[8] = TRUE
+        }
       }
-      if(input$betweenness == TRUE)
+      if(input$betweennesstab == TRUE)
       {
         ncol[4] = TRUE
       }
-      if(input$closeness == TRUE)
+      if(input$closenesstab == TRUE)
       {
         ncol[6] = TRUE
       }
+      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      {
+        if(input$indegreetab == TRUE)
+        {
+          ncol[8] = TRUE
+        }      
+      }
+      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      {
+        if(input$outdegreetab == TRUE)
+        {
+          ncol[10] = TRUE
+        }
+      }
+      
+      
+      centtab <- reactive({
+        if(input$sortdata == "Raw Data")
+        {
+          centralityTable(qgraph(norm(),
+                                     sampleSize = nrow(data()),
+                                     graph = est(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     DoNotPlot = TRUE))
+        } else if(input$sortdata == "Adjacency Matrix")
+        {
+          centralityTable(qgraph(data(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     DoNotPlot = TRUE))
+        } else if(input$sortdata == "Edgelist")
+        {
+          centralityTable(qgraph(data(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     DoNotPlot = TRUE))
+        }
+      })
      
-      reshape(centralityTable(graph()), timevar = "measure",
+      reshape(centtab(), timevar = "measure",
               idvar = c("graph", "node"),
               direction = "wide")[, ncol]
       
@@ -301,6 +507,7 @@ shinyServer(
         write.csv(centtable(), file, row.names = FALSE)
       }) #exit download centrality table
     
+    # Set clustering measures for plot
     wes <- reactive({
       if(input$ws == TRUE)
       {
@@ -329,11 +536,59 @@ shinyServer(
       }
       
     })
+    
     # Print clustering plot
     output$clustplot <- renderPlot({
       
-      # Plot centrality measures
-      c <- clusteringPlot(graph(), include = c(wes(), zh(), onn(), bar()))
+      # Plot clustering measures    
+      if(input$sortdata == "Raw Data")
+      {
+        c <- clusteringPlot(qgraph(norm(),
+                                   layout = lay(), 
+                                   labels = lab(),
+                                   title = tit(),
+                                   minimum = min(),
+                                   maximum = max(),
+                                   cut = ct(),
+                                   details = det(),
+                                   esize = es(),
+                                   vsize = ns(),
+                                   weighted = weight(),
+                                   directed = direct(),
+                                   sampleSize = nrow(data()),
+                                   graph = est(),
+                                   DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+      } else if(input$sortdata == "Adjacency Matrix")
+      {
+        c <- clusteringPlot(qgraph(data(),
+                                   layout = lay(), 
+                                   labels = lab(),
+                                   title = tit(),
+                                   minimum = min(),
+                                   maximum = max(),
+                                   cut = ct(),
+                                   details = det(),
+                                   esize = es(),
+                                   vsize = ns(),
+                                   weighted = weight(),
+                                   directed = direct(),
+                                   DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+      } else if(input$sortdata == "Edgelist")
+      {
+        c <- clusteringPlot(qgraph(data(),
+                                   layout = lay(), 
+                                   labels = lab(),
+                                   title = tit(),
+                                   minimum = min(),
+                                   maximum = max(),
+                                   cut = ct(),
+                                   details = det(),
+                                   esize = es(),
+                                   vsize = ns(),
+                                   weighted = weight(),
+                                   directed = direct(),
+                                   DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+      }
       
       # Flip plot if chosen
       if(input$horizontal == TRUE)
@@ -355,7 +610,54 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
-        clusteringPlot(graph())
+        if(input$sortdata == "Raw Data")
+        {
+          clusteringPlot(qgraph(norm(),
+                                     layout = lay(), 
+                                     labels = lab(),
+                                     title = tit(),
+                                     minimum = min(),
+                                     maximum = max(),
+                                     cut = ct(),
+                                     details = det(),
+                                     esize = es(),
+                                     vsize = ns(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     sampleSize = nrow(data()),
+                                     graph = est(),
+                                     DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+        } else if(input$sortdata == "Adjacency Matrix")
+        {
+          clusteringPlot(qgraph(data(),
+                                     layout = lay(), 
+                                     labels = lab(),
+                                     title = tit(),
+                                     minimum = min(),
+                                     maximum = max(),
+                                     cut = ct(),
+                                     details = det(),
+                                     esize = es(),
+                                     vsize = ns(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+        } else if(input$sortdata == "Edgelist")
+        {
+          clusteringPlot(qgraph(data(),
+                                     layout = lay(), 
+                                     labels = lab(),
+                                     title = tit(),
+                                     minimum = min(),
+                                     maximum = max(),
+                                     cut = ct(),
+                                     details = det(),
+                                     esize = es(),
+                                     vsize = ns(),
+                                     weighted = weight(),
+                                     directed = direct(),
+                                     DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()))
+        }
         dev.off()
       })     #exit download clustering plot  
     
@@ -363,23 +665,76 @@ shinyServer(
       ncol <- rep(FALSE, times = 10)
       
       ncol[2] = TRUE
-      if(input$ws == TRUE)
+      if(input$wstab == TRUE)
       {
         ncol[4] = TRUE
       }
-      if(input$zhang == TRUE)
+      if(input$zhangtab == TRUE)
       {
         ncol[6] = TRUE
       }
-      if(input$onnela == TRUE)
+      if(input$onnelatab == TRUE)
       {
         ncol[8] = TRUE
       }
-      if(input$barrat == TRUE)
+      if(input$barrattab == TRUE)
       {
         ncol[10] = TRUE
       }
-      reshape(clusteringTable(graph()), timevar = "measure",
+      
+      clusttab <- reactive({
+        if(input$sortdata == "Raw Data")
+        {
+          clusteringTable(qgraph(norm(),
+                                 layout = lay(), 
+                                 labels = lab(),
+                                 title = tit(),
+                                 minimum = min(),
+                                 maximum = max(),
+                                 cut = ct(),
+                                 details = det(),
+                                 esize = es(),
+                                 vsize = ns(),
+                                 weighted = weight(),
+                                 directed = direct(),
+                                 sampleSize = nrow(data()),
+                                 graph = est(),
+                                 DoNotPlot = TRUE))
+        } else if(input$sortdata == "Adjacency Matrix")
+        {
+          clusteringTable(qgraph(data(),
+                                 layout = lay(), 
+                                 labels = lab(),
+                                 title = tit(),
+                                 minimum = min(),
+                                 maximum = max(),
+                                 cut = ct(),
+                                 details = det(),
+                                 esize = es(),
+                                 vsize = ns(),
+                                 weighted = weight(),
+                                 directed = direct(),
+                                 DoNotPlot = TRUE))
+        } else if(input$sortdata == "Edgelist")
+        {
+          clusteringTable(qgraph(data(),
+                                 layout = lay(), 
+                                 labels = lab(),
+                                 title = tit(),
+                                 minimum = min(),
+                                 maximum = max(),
+                                 cut = ct(),
+                                 details = det(),
+                                 esize = es(),
+                                 vsize = ns(),
+                                 weighted = weight(),
+                                 directed = direct(),
+                                 DoNotPlot = TRUE))
+        }
+      })
+      
+      
+      reshape(clusttab(), timevar = "measure",
               idvar = c("graph", "node"),
               direction = "wide")[, ncol]
     }) #exit clustering table (global variable)
@@ -399,3 +754,4 @@ shinyServer(
         write.csv(clusttable(), file, row.names = FALSE)
       }) #exit download clustering table
   }) #exit shinyservey
+

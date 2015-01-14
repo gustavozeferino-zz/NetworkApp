@@ -63,6 +63,8 @@ UPDATE (01-14-2015):
 * Fixed bug for uploading files that uses whitespace as separation
 * Added an example dataset for users to download and to upload into the app
 * Added option for coding missing values in dataset
+* Added option for uploading adjacency matrices or edge lists instead of raw data
+* Added option to display In/Out Degree when a user has uploaded an adjacency matrix or an edge list
 
 ## References:
 
