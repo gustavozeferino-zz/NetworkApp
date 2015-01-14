@@ -42,9 +42,10 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
 * Network visualization
   * Enter group specification that will be visualized
   * Add a legend
-  * Change node labels
   * Change node colours
   * Extend functions for more than 1 dataset
+  * Implement network comparison method
+  * Implement other estimation methods
 
 * Centrality tab
   * Add asthetics of centrality plot
