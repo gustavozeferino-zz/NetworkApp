@@ -39,6 +39,10 @@ shinyUI(pageWithSidebar(
                    'Single Quote'="'"),
                  '"'),
     
+    # Specify coding for NAs
+    textInput("missing",
+              label = "Missing value code:"),
+    
     tags$hr(),
     
     # Download network as pdf

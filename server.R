@@ -24,7 +24,22 @@ shinyServer(
         return(NULL)
       }
       
-      file <- read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      # Code missing values
+      na <- NULL
+      if (input$missing == "NA")
+      {
+        na <- "NA"
+      }
+      else if (input$missing == FALSE)
+      {
+        na <- FALSE
+      }
+      else 
+      {
+        na <- as.numeric(input$missing)
+      }
+      
+      file <- read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote, na.strings = na)
     }) #exit data defining
     
     # Use chosen layout
@@ -172,7 +187,7 @@ shinyServer(
     
     # Download example dataset
     exampledata <- reactive({
-      bfi
+      bfi[,1:25]
     })
     
     output$downloadexample <- downloadHandler(

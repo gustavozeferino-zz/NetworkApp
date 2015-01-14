@@ -24,6 +24,7 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
   * Upload your own dataset
   * More network estimation options
   * Option for performing non-paranormal transformation
+  * Option for coding missing values
   
 * Centrality tab
   * Add second tab with centrality table and plot
@@ -61,6 +62,7 @@ All features are implemented using the R-package qgraph version 1.3.1.
 UPDATE (01-14-2015):
 * Fixed bug for uploading files that uses whitespace as separation
 * Added an example dataset for users to download and to upload into the app
+* Added option for coding missing values in dataset
 
 ## References:
 
