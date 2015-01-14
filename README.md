@@ -54,6 +54,12 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
   
 All features are implemented using the R-package qgraph version 1.3.1.
 
+
+## Latest Updates
+
+UPDATE (01-14-2015):
+Fixed bug for uploading files that uses whitespace as separation
+
 ## References:
 
 Epskamp, S., Cramer, A. O. J., Waldorp, L. J., Schmittmann, V. D., & Borsboom, D. (2012) qgraph: Network Visualizations of Relationships in Psychometric Data. *Journal of Statistical Software, 48*, 1 - 18.

@@ -25,7 +25,8 @@ shinyUI(pageWithSidebar(
     radioButtons('sep', '',
                  c(Comma=',',
                    Semicolon=';',
-                   Tab='\t'),
+                   Tab='\t',
+                   Whitespace = ''),
                  '\t'),
     
     tags$hr(),

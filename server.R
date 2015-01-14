@@ -23,7 +23,7 @@ shinyServer(
         return(NULL)
       }
       
-      file <- read.csv(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      file <- read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
     }) #exit data defining
     
     # Use chosen layout
@@ -102,16 +102,15 @@ shinyServer(
              "Pearson Correlation" = "cor",
              "Partial Correlation" = "pcor",
              "GLASSO" = "glasso")
-
     })
 
     norm <- reactive({
       if(input$normal == TRUE)
       {
-        cor(huge.npn(data()))
+        cor(huge.npn(data()), use = "pairwise.complete.obs")
       } else
       {
-        cor(data())
+        cor(data(), use = "pairwise.complete.obs")
       }
     })
     graph <- reactive({
