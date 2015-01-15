@@ -46,13 +46,22 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
   * Change node colours
   * Extend functions for more than 1 dataset
   * Implement network comparison method
-  * Implement other estimation methods
+  * Implement other estimation methods:
+    * Adaptive LASSO
+  * Small World Index
 
 * Centrality tab
   * Add asthetics of centrality plot
+  * Add centrality measures:
+    * eigenvector centrality
+    * Bonacich power
+    * alpha centrality
   
 * Clustering tab
   * Add asthetics of clustering plot
+  
+* Other features
+  * plot that compares centrality measure against clustering measure with median values of both
   
 All features are implemented using the R-package qgraph version 1.3.1.
 

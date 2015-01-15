@@ -10,6 +10,7 @@ library("psych")
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
   sidebarPanel(position = "right",
+               
                # Upload file
                fileInput('input', 'Choose CSV or TXT File',
                          accept=c('text/csv', 
@@ -55,8 +56,10 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadnetwork', 'Download PDF'),
                
                # Download example data
-               downloadButton('downloadexample', 'Download Example Data')
-  ),
+               downloadButton('downloadexample', 'Download Example Data'),
+  
+               h5("Authors"),
+               p("Jolanda Kossakowski <mail@jolandakossakowski.eu> & Sacha Epskamp")),
   mainPanel(
     tabsetPanel(
       tabPanel("Network", 
