@@ -48,7 +48,9 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
   * Implement network comparison method
   * Implement other estimation methods:
     * Adaptive LASSO
+    * VAR-Model
   * Small World Index
+  * Implement option for uploading Time Series Data
 
 * Centrality tab
   * Add asthetics of centrality plot
