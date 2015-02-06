@@ -8,8 +8,13 @@ library("qgraph")
 library("psych")
 
 shinyUI(pageWithSidebar(
-  titlePanel("Network App"),
+  titlePanel("  Network App"),
   sidebarPanel(position = "right",
+               
+               p("The options below are needed to specify how your file looks like. If you do not have any data but you want to see how the application works, click “Demo version”  and a dataset is automatically updated that is available via the qgraph package. The example dataset comprises of 25 NEO-PI-R items: 5 items per trait."),
+               
+               br(),
+               br(),
                
                # Upload file
                fileInput('input', 'Choose CSV or TXT File',
@@ -17,20 +22,24 @@ shinyUI(pageWithSidebar(
                                   'text/comma-separated-values,text/plain', 
                                   '.csv')),
                
+               # specify if demo data is to be used
+               checkboxInput("demo", "Demo version", FALSE),
+               
                # Specify kind of data
                selectInput('sortdata', 
                            label = "Specify the kind of data that is uploaded:",
                            choices = list("Raw Data",
                                           "Adjacency Matrix",
-                                          "Edgelist"), selected = "Adjacency Matrix"),   
+                                          "Edgelist"), selected = "Raw Data"),   
                tags$hr(),
                # Contains the file a header? 
                checkboxInput('header', 'Header', TRUE),
+               checkboxInput("stringfactors", "Strings as factors", FALSE),
                
                tags$hr(),
                
                # Select separator
-               radioButtons('sep', '',
+               radioButtons('sep', 'Separator',
                             c(Comma=',',
                               Semicolon=';',
                               Tab='\t',
@@ -39,8 +48,15 @@ shinyUI(pageWithSidebar(
                
                tags$hr(),
                
+               radioButtons('decimal', "Decimal",
+                            c(Period = ".",
+                              Comma = ","),
+                            ","),
+               
+               tags$hr(),
+               
                # Select appropriate quotes
-               radioButtons('quote', '',
+               radioButtons('quote', 'Quote',
                             c(None='',
                               'Double Quote'='"',
                               'Single Quote'="'"),
@@ -48,7 +64,7 @@ shinyUI(pageWithSidebar(
                
                # Specify coding for NAs
                textInput("missing",
-                         label = "Missing value code:"),
+                         label = "Missing value coding:"),
                
                tags$hr(),
                
@@ -137,7 +153,7 @@ shinyUI(pageWithSidebar(
                                     label = "Edge Cut-Off Value",
                                     min = 0,
                                     max = 1,
-                                    value = 0.6))),
+                                    value = 0.1))),
                
                fluidRow(
                  column(4),             
@@ -170,7 +186,7 @@ shinyUI(pageWithSidebar(
                                       label = "Edge Size:",
                                       min = 0,
                                       max = 25,
-                                      value = 1)))),
+                                      value = 5)))),
                
                br(),
                br()),

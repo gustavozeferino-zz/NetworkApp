@@ -7,6 +7,8 @@ library("huge")
 library("qgraph")
 library("psych")
 
+data(big5)
+big5 <- big5[,1:25]
 
 shinyServer(
   function(input, output) {
@@ -18,28 +20,36 @@ shinyServer(
     data <- reactive({
       
       inFile <- input$input
-      
-      if (is.null(inFile))
+            
+      if(input$demo == TRUE)
       {
-        return(NULL)
+        file <- big5
+      } else 
+      {
+        if (is.null(inFile))
+        {
+          return(NULL)
+        }
+        
+        # Code missing values
+        na <- NULL
+        if (input$missing == "NA")
+        {
+          na <- "NA"
+        }
+        else if (input$missing == FALSE)
+        {
+          na <- FALSE
+        }
+        else 
+        {
+          na <- as.numeric(input$missing)
+        }
+        
+        file <- read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote, na.strings = na, stringsAsFactors = input$stringfactors, dec = input$decimal)
       }
       
-      # Code missing values
-      na <- NULL
-      if (input$missing == "NA")
-      {
-        na <- "NA"
-      }
-      else if (input$missing == FALSE)
-      {
-        na <- FALSE
-      }
-      else 
-      {
-        na <- as.numeric(input$missing)
-      }
       
-      file <- read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote, na.strings = na)
     }) #exit data defining
     
     # Use chosen layout
@@ -753,5 +763,5 @@ shinyServer(
       {
         write.csv(clusttable(), file, row.names = FALSE)
       }) #exit download clustering table
-  }) #exit shinyservey
+  }) #exit shinyserver
 
