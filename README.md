@@ -8,6 +8,9 @@ Version 0.1 of this application has now been released. Visit https://jolandakos.
 
 ## Current available features:
 
+* General
+  * Demo version option that will automatically upload predefined data if chosen
+  
 * Network Estimation
   * Add a title
   * Change the graph layout
