@@ -8,12 +8,11 @@ library("qgraph")
 library("psych")
 
 shinyUI(pageWithSidebar(
-  titlePanel("  Network App"),
+  titlePanel("Network App"),
   sidebarPanel(position = "right",
                
                p("The options below are needed to specify how your file looks like. If you do not have any data but you want to see how the application works, click “Demo version”  and a dataset is automatically updated that is available via the qgraph package. The example dataset comprises of 25 NEO-PI-R items: 5 items per trait."),
                
-               br(),
                br(),
                
                # Upload file
@@ -23,7 +22,9 @@ shinyUI(pageWithSidebar(
                                   '.csv')),
                
                # specify if demo data is to be used
-               checkboxInput("demo", "Demo version", FALSE),
+               checkboxInput("demo", 
+                             label = "Demo Version", 
+                             value = FALSE),
                
                # Specify kind of data
                selectInput('sortdata', 
@@ -102,6 +103,34 @@ shinyUI(pageWithSidebar(
                                       value = TRUE)),
                  
                  column(3,
+                        # Set threshold for edge weight
+                        sliderInput("threshold",
+                                    label = "Edge Threshold:",
+                                    min = 0,
+                                    max = 1,
+                                    value = 0))),
+               
+               fluidRow(
+                 column(4,
+                        # Choose network estimation method
+                        selectInput("method",
+                                    label = "Network Estimation Method:",
+                                    choices = c("FDRnetwork",
+                                                "GLASSO",
+                                                "IC-Algorithm: DAG",
+                                                "IC-Algorithm: Skeleton",
+                                                "Partial Correlation",
+                                                "Pearson Correlation",
+                                                "VAR-model"),
+                                    selected = "Partial Correlation")),
+                 
+                 column(3,
+                        # Weighted graph TRUE/FALSE
+                        checkboxInput("weighted",
+                                      label = "Edge Weights",
+                                      value = FALSE)),
+                 
+                 column(3,
                         # Select minimum value edge weights
                         sliderInput("minimum",
                                     label = "Minimum Edge Weight:",
@@ -111,18 +140,18 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        # Choose network estimation method
-                        selectInput("method",
-                                    label = "Network Estimation Method",
-                                    choices = c("Pearson Correlation", 
-                                                "Partial Correlation", 
-                                                "GLASSO"),
-                                    selected = "Partial Correlation")),
+                        # Select network layout
+                        selectInput("layout",
+                                    label = "Network Layout:",
+                                    choices = c("Circle", 
+                                                "Spring", 
+                                                "Grouped Circle"),
+                                    selected = "Spring")),
                  
-                 column(3,
-                        # Weighted graph TRUE/FALSE
-                        checkboxInput("weighted",
-                                      label = "Edge Weights",
+                 column(3,        
+                        # Directed edges TRUE/FALSE
+                        checkboxInput("direction",
+                                      label = "Directed Edges",
                                       value = FALSE)),
                  
                  column(3,
@@ -135,45 +164,36 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        # Select network layout
-                        selectInput("layout",
-                                    label = "Network Layout",
-                                    choices = c("Circle", "Spring", "Grouped Circle"),
-                                    selected = "Spring")),
-                 
-                 column(3,        
-                        # Directed edges TRUE/FALSE
-                        checkboxInput("direction",
-                                      label = "Directed Edges",
-                                      value = FALSE)),
-                 
-                 column(3,
-                        # Select cut-off value edge weights
-                        sliderInput("cut",
-                                    label = "Edge Cut-Off Value",
-                                    min = 0,
-                                    max = 1,
-                                    value = 0.1))),
-               
-               fluidRow(
-                 column(4),             
-                 
-                 
+                        selectInput("FDRmethod",
+                                    label = "Method for FDR Network:",
+                                    choices = c("Local FDR",
+                                                "None",
+                                                "p-value",
+                                                "q-value"),
+                                    selected = "None")),
+    
+                                                   
                  column(3,               
                         # Plot graph details TRUE/FALSE
                         checkboxInput("details",
                                       label = "Graph Details",
                                       value = FALSE)),
                  column(3,
-                        # Select size of nodes
-                        sliderInput("nodesize",
-                                    label = "Node Size:",
+                        # Select cut-off value edge weights
+                        sliderInput("cut",
+                                    label = "Edge Cut-Off Value:",
                                     min = 0,
-                                    max = 25,
-                                    value = 6.1)),
+                                    max = 1,
+                                    value = 0.1))),
                  
                  fluidRow(
-                   column(4),
+                   column(4,
+                          selectInput("VARmethod",
+                                       label = "Distribution family for VAR-model:",
+                                      choices = c("Binary",
+                                                  "Gaussian",
+                                                  "None"),
+                                      selected = "None")),
                    
                    column(3,
                           checkboxInput("normal",
@@ -186,7 +206,52 @@ shinyUI(pageWithSidebar(
                                       label = "Edge Size:",
                                       min = 0,
                                       max = 25,
-                                      value = 5)))),
+                                      value = 5))),
+               
+               fluidRow(
+                 column(4,
+                        selectInput("pcindep",
+                                    label = "Method for Conditional Independence IC-Algorithm:",
+                                    choices = c("Binary",
+                                                "Discrete",
+                                                "D-separation",
+                                                "Gaussian",
+                                                "None"),
+                                    selected = "None")),
+                 column(3,
+                        checkboxInput("pastelcol",
+                                      label = "Pastel colours",
+                                      value = FALSE)),
+                 column(3,
+                        # Select size of nodes
+                        sliderInput("nodesize",
+                                    label = "Node Size:",
+                                    min = 0,
+                                    max = 25,
+                                    value = 6.1))),
+               
+               fluidRow(
+                 column(4,
+                        selectInput("nodeshape",
+                                    label = "Node shape:",
+                                    choices = c("Circle",
+                                                "Diamond",
+                                                "Heart",
+                                                "Square",
+                                                "Triangle"),
+                                    selected = "Circle")),
+                 column(3,
+                        checkboxInput("diagonal",
+                                      label = "Plot Self-Loops",
+                                      value = FALSE)),
+                 column(3,
+                        # Set cut-off value for FDR network
+                        sliderInput("cutoffFDR",
+                                    label = "Cut-off value FDR network:",
+                                    min = 0.0001,
+                                    max = 1,
+                                    value = 0.05))),
+
                
                br(),
                br()),
@@ -319,9 +384,8 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadclusteringtable', 'Download Clustering Table'),
                br(),
                br())
+
+      )  
     )
-  )  
+  )
 )
-)
-
-

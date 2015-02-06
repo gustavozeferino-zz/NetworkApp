@@ -25,7 +25,7 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Change node size
   * Download pdf of graph
   * Upload your own dataset
-  * More network estimation options
+  * Various network estimation options
   * Option for performing non-paranormal transformation
   * Option for coding missing values
   
@@ -49,9 +49,6 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Change node colours
   * Extend functions for more than 1 dataset
   * Implement network comparison method
-  * Implement other estimation methods:
-    * Adaptive LASSO
-    * VAR-Model
   * Small World Index
   * Implement option for uploading Time Series Data
 
@@ -66,19 +63,16 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Add asthetics of clustering plot
   
 * Other features
-  * plot that compares centrality measure against clustering measure with median values of both
+  * Plot that compares centrality measure against clustering measure with median values of both
   
 All features are implemented using the R-package qgraph version 1.3.1.
 
 
 ## Latest Updates
 
-UPDATE (01-14-2015):
-* Fixed bug for uploading files that uses whitespace as separation
-* Added an example dataset for users to download and to upload into the app
-* Added option for coding missing values in dataset
-* Added option for uploading adjacency matrices or edge lists instead of raw data
-* Added option to display In/Out Degree when a user has uploaded an adjacency matrix or an edge list
+UPDATE (06-02-2015):
+* Added the options to estimate an FDR (false discovery rate) network and a VAR (vector autoregressive) network.
+* Added the option to estimate the skeleton and DAG with the IC-algorithm
 
 ## References:
 

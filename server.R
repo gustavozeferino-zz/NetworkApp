@@ -104,6 +104,10 @@ shinyServer(
       input$title     
     })
     
+    thres <- reactive({
+      input$threshold
+    })
+    
     min <- reactive({
       input$minimum 
     })
@@ -121,26 +125,108 @@ shinyServer(
     
     ns <- reactive({
       input$nodesize
-    })   
-
-    est <- reactive({
-        switch(input$method,
-               "Pearson Correlation" = "cor",
-               "Partial Correlation" = "pcor",
-               "GLASSO" = "glasso")    
+    })  
+    
+    past <- reactive({
+      input$pastelcol
+    })
+    
+    plotdiag <- reactive({
+      input$diagonal
     })
 
+    FDRmeth <- reactive({
+      switch(input$FDRmethod,
+             "local FDR" = "lfdr", 
+             "p-value" = "pval",
+             "q-value" = "qval")
+    })
+    
+    VARfam <- reactive({
+      switch(input$VARmethod,
+             "Gaussian" = "gaussian",
+             "Binary" = "binomial")
+    })
+  
+    
+    indeptest <- reactive({
+      switch(input$pcindep,
+             "Binary" = binCItest,
+             "Discrete" = disCItest,
+             "D-separation" = dsepTest,
+             "Gaussian" = gaussCItest)
+    })
+    
+    
     norm <- reactive({
+      if(input$method == "FDRnetwork")
+      {       
         if(input$normal == TRUE)
         {
-          cor(huge.npn(data()), use = "pairwise.complete.obs")
-        } else
+          FDRnetwork(cor(huge.npn(data()), use = "pairwise.complete.obs"), cutoff = input$cutoffFDR, method = FDRmeth())
+        } else  
         {
-          cor(data(), use = "pairwise.complete.obs")
+          FDRnetwork(cor(data(), use = "pairwise.complete.obs"), cutoff = input$cutoffFDR, method = FDRmeth())
+        }  
+      } else if(input$method == "VAR-model")
+      {
+        
+        if(input$normal == TRUE)
+        {
+          VARglm(cor(huge.npn(data()), use = "pairwise.complete.obs"), family = VARfam())$graph 
+        } else  
+        {
+          VARglm(cor(data(), use = "pairwise.complete.obs"), family = VARfam())$graph 
+        }
+      } else if(input$method == "IC-Algorithm: Skeleton")
+      {
+        if(input$normal == TRUE)
+        {
+          skeleton(suffStat = list(C = cor(huge.npn(data()), use = "pairwise.complete.obs"), n = nrow(data())), indepTest = indeptest(), alpha = 0.05, labels = colnames(data()))
+        } else  
+        {
+          skeleton(suffStat = list(C = cor(data(), use = "pairwise.complete.obs"), n = nrow(data())), indepTest = indeptest(), alpha = 0.05, labels = colnames(data()))
+        }  
+      } else if(input$method == "IC-Algorithm: DAG")
+      {
+        if(input$normal == TRUE)
+        {
+          pc(suffStat = list(C = cor(huge.npn(data()), use = "pairwise.complete.obs"), n = nrow(data())), indepTest = indeptest(), alpha = 0.05, labels = colnames(data()))
+        } else  
+        {
+          pc(suffStat = list(C = cor(data(), use = "pairwise.complete.obs"), n = nrow(data())), indepTest = indeptest(), alpha = 0.05, labels = colnames(data()))
+        } 
+      } else  
+        {
+          if(input$normal == TRUE)
+          {
+            cor(huge.npn(data()), use = "pairwise.complete.obs")
+          } else  
+          {
+            cor(data(), use = "pairwise.complete.obs")
+          }
         }
     })
     
-    
+    est <- reactive({
+      if(!input$method == "FDRnetwork")
+      {
+        switch(input$method,
+               "GLASSO" = "glasso",
+               "Pearson Correlation" = "cor",
+               "Partial Correlation" = "pcor") 
+      }         
+    })
+
+    shapenode <- reactive({
+      switch(input$nodeshape,
+             "Circle" = "circle",
+             "Diamond" = "diamond",
+             "Heart" = "heart",
+             "Square" = "square",
+             "Triangle" = "triangle")
+    })
+      
     # Visualize network
     output$network <- renderPlot({       
       
@@ -163,7 +249,10 @@ shinyServer(
                  weighted = weight(),
                  directed = direct(),
                  sampleSize = nrow(data()),
-                 graph = est())
+                 graph = est(),
+                 threshold = thres(),
+                 shape = shapenode(),
+                 diag = plotdiag())
       } else if(input$sortdata == "Adjacency Matrix")
       {
         qgraph(data(),
@@ -177,7 +266,11 @@ shinyServer(
                esize = es(),
                vsize = ns(),
                weighted = weight(),
-               directed = direct())
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       } else if(input$sortdata == "Edgelist")
       {
         qgraph(data(),
@@ -191,7 +284,11 @@ shinyServer(
                esize = es(),
                vsize = ns(),
                weighted = weight(),
-               directed = direct())
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       }
     }, width = "auto", height = 500) #exit visualizing network 
     
@@ -219,7 +316,11 @@ shinyServer(
                weighted = weight(),
                directed = direct(),
                sampleSize = nrow(data()),
-               graph = est())
+               graph = est(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       } else if(input$sortdata == "Adjacency Matrix")
       {
         qgraph(data(),
@@ -233,7 +334,11 @@ shinyServer(
                esize = es(),
                vsize = ns(),
                weighted = weight(),
-               directed = direct())
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       } else if(input$sortdata == "Edgelist")
       {
         qgraph(data(),
@@ -247,7 +352,11 @@ shinyServer(
                esize = es(),
                vsize = ns(),
                weighted = weight(),
-               directed = direct())
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       }
         dev.off()
       }) #exit download network plot
