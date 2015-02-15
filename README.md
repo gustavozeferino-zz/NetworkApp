@@ -51,6 +51,8 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Implement network comparison method
   * Small World Index
   * Implement option for uploading Time Series Data
+    * Implement option for lag-0 network
+    * Implement option for lag-1 network
 
 * Centrality tab
   * Add asthetics of centrality plot
