@@ -6,12 +6,13 @@ library("ggplot2")
 library("huge")
 library("qgraph")
 library("psych")
+library("pcalg")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
   sidebarPanel(position = "right",
                
-               p("The options below are needed to specify how your file looks like. If you do not have any data but you want to see how the application works, click “Demo version”  and a dataset is automatically updated that is available via the qgraph package. The example dataset comprises of 25 NEO-PI-R items: 5 items per trait."),
+               p("The options below are needed to specify how your file looks like. If you do not have any data but you want to see how the application works, click “Demo version”  and a dataset is automatically updated that is available via the psych package. The example dataset comprises of 25 NEO-PI-R items: 5 items per trait."),
                
                br(),
                

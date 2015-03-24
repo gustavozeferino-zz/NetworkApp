@@ -50,6 +50,7 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Extend functions for more than 1 dataset
   * Implement network comparison method
   * Small World Index
+  * Implement Graphical VAR function
   * Implement option for uploading Time Series Data
     * Implement option for lag-0 network
     * Implement option for lag-1 network
@@ -57,9 +58,9 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
 * Centrality tab
   * Add asthetics of centrality plot
   * Add centrality measures:
-    * eigenvector centrality
+    * Eigenvector centrality
     * Bonacich power
-    * alpha centrality
+    * Alpha centrality
   
 * Clustering tab
   * Add asthetics of clustering plot

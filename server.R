@@ -6,9 +6,10 @@ library("ggplot2")
 library("huge")
 library("qgraph")
 library("psych")
+library("pcalg")
 
-data(big5)
-big5 <- big5[,1:25]
+data(bfi)
+big5 <- bfi[,1:25]
 
 shinyServer(
   function(input, output) {
