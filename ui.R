@@ -6,7 +6,7 @@ library("ggplot2")
 library("huge")
 library("qgraph")
 library("psych")
-library("pcalg")
+# library("pcalg")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),
@@ -70,9 +70,6 @@ shinyUI(pageWithSidebar(
                
                tags$hr(),
                
-               # Download network as pdf
-               downloadButton('downloadnetwork', 'Download PDF'),
-               
                # Download example data
                downloadButton('downloadexample', 'Download Example Data'),
   
@@ -93,9 +90,9 @@ shinyUI(pageWithSidebar(
                br(),
                fluidRow(
                  column(4,
-                        # Insert title plot
-                        textInput("title",
-                                  label = "Title:")),
+                        
+                        # Download network as pdf
+                        downloadButton('downloadnetwork', 'Download PDF')),
                  
                  column(3,
                         # Use node labels TRUE/FALSE
@@ -113,23 +110,16 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        # Choose network estimation method
-                        selectInput("method",
-                                    label = "Network Estimation Method:",
-                                    choices = c("FDRnetwork",
-                                                "GLASSO",
-                                                "IC-Algorithm: DAG",
-                                                "IC-Algorithm: Skeleton",
-                                                "Partial Correlation",
-                                                "Pearson Correlation",
-                                                "VAR-model"),
-                                    selected = "Partial Correlation")),
+                        
+                        # Insert title plot
+                        textInput("title",
+                                  label = "Title:")),
                  
                  column(3,
                         # Weighted graph TRUE/FALSE
                         checkboxInput("weighted",
                                       label = "Edge Weights",
-                                      value = FALSE)),
+                                      value = TRUE)),
                  
                  column(3,
                         # Select minimum value edge weights
@@ -141,14 +131,17 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        # Select network layout
-                        selectInput("layout",
-                                    label = "Network Layout:",
-                                    choices = c("Circle", 
-                                                "Spring", 
-                                                "Grouped Circle"),
-                                    selected = "Spring")),
-                 
+                        # Choose network estimation method
+                        selectInput("method",
+                                    label = "Network Estimation Method:",
+                                    choices = c("FDRnetwork",
+                                                "GLASSO",
+                                                "IC-Algorithm: DAG",
+                                                "IC-Algorithm: Skeleton",
+                                                "Partial Correlation",
+                                                "Pearson Correlation",
+                                                "VAR-model"),
+                                    selected = "Partial Correlation")),
                  column(3,        
                         # Directed edges TRUE/FALSE
                         checkboxInput("direction",
@@ -165,15 +158,15 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        selectInput("FDRmethod",
-                                    label = "Method for FDR Network:",
-                                    choices = c("Local FDR",
-                                                "None",
-                                                "p-value",
-                                                "q-value"),
-                                    selected = "None")),
-    
-                                                   
+                        # Select network layout
+                        selectInput("layout",
+                                    label = "Network Layout:",
+                                    choices = c("Circle", 
+                                                "Spring", 
+                                                "Grouped Circle"),
+                                    selected = "Spring")),
+                 
+                                  
                  column(3,               
                         # Plot graph details TRUE/FALSE
                         checkboxInput("details",
@@ -189,12 +182,14 @@ shinyUI(pageWithSidebar(
                  
                  fluidRow(
                    column(4,
-                          selectInput("VARmethod",
-                                       label = "Distribution family for VAR-model:",
-                                      choices = c("Binary",
-                                                  "Gaussian",
-                                                  "None"),
+                          selectInput("FDRmethod",
+                                      label = "Method for FDR Network:",
+                                      choices = c("Local FDR",
+                                                  "None",
+                                                  "p-value",
+                                                  "q-value"),
                                       selected = "None")),
+                   
                    
                    column(3,
                           checkboxInput("normal",
@@ -211,14 +206,13 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        selectInput("pcindep",
-                                    label = "Method for Conditional Independence IC-Algorithm:",
+                        selectInput("VARmethod",
+                                    label = "Distribution family for VAR-model:",
                                     choices = c("Binary",
-                                                "Discrete",
-                                                "D-separation",
                                                 "Gaussian",
                                                 "None"),
                                     selected = "None")),
+                        
                  column(3,
                         checkboxInput("pastelcol",
                                       label = "Pastel colours",
@@ -233,14 +227,14 @@ shinyUI(pageWithSidebar(
                
                fluidRow(
                  column(4,
-                        selectInput("nodeshape",
-                                    label = "Node shape:",
-                                    choices = c("Circle",
-                                                "Diamond",
-                                                "Heart",
-                                                "Square",
-                                                "Triangle"),
-                                    selected = "Circle")),
+                        selectInput("pcindep",
+                                    label = "Method for Conditional Independence IC-Algorithm:",
+                                    choices = c("Binary",
+                                                "Discrete",
+                                                "D-separation",
+                                                "Gaussian",
+                                                "None"),
+                                    selected = "None")),
                  column(3,
                         checkboxInput("diagonal",
                                       label = "Plot Self-Loops",
@@ -253,7 +247,16 @@ shinyUI(pageWithSidebar(
                                     max = 1,
                                     value = 0.05))),
 
-               
+               fluidRow(
+                 column(4,
+                        selectInput("nodeshape",
+                                    label = "Node shape:",
+                                    choices = c("Circle",
+                                                "Diamond",
+                                                "Heart",
+                                                "Square",
+                                                "Triangle"),
+                                    selected = "Circle"))),
                br(),
                br()),
       
