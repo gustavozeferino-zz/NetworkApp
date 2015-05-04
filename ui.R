@@ -6,7 +6,7 @@ library("ggplot2")
 library("huge")
 library("qgraph")
 library("psych")
-# library("pcalg")
+library("pcalg")
 
 shinyUI(pageWithSidebar(
   titlePanel("Network App"),

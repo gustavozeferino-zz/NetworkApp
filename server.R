@@ -6,7 +6,7 @@ library("ggplot2")
 library("huge")
 library("qgraph")
 library("psych")
-# library("pcalg")
+library("pcalg")
 
 data(bfi)
 big5 <- bfi[,1:25]
