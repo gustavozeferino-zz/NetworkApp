@@ -57,6 +57,7 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
 
 * Centrality tab
   * Add asthetics of centrality plot
+  * Add option to sort centrality measures based on value
   * Add centrality measures:
     * Eigenvector centrality
     * Bonacich power
@@ -64,6 +65,7 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   
 * Clustering tab
   * Add asthetics of clustering plot
+  * Add option to sort clustering measures based on value
   
 * Other features
   * Plot that compares centrality measure against clustering measure with median values of both
