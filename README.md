@@ -70,7 +70,8 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
 * Other features
   * Plot that compares centrality measure against clustering measure with median values of both
   * Add possibility to mention which column had participant numbers in them
-  
+  * create "busy" notion 
+ 
 All features are implemented using the R-package qgraph version 1.3.1.
 
 

@@ -445,9 +445,144 @@ shinyUI(pageWithSidebar(
                # Download clustering table
                downloadButton('downloadclusteringtable', 'Download Clustering Table'),
                br(),
-               br())
+               br()),
+      
+      tabPanel("Network Comparison", 
+               br(),
+               br(),
+               
+                fluidRow(
+                 column(6,     
+                        
+                        h2("Dataset 1"),
+               
+                      
+               
+                # Upload dataset 1
+               fileInput('input1', 'Choose CSV or TXT File',
+                         accept=c('text/csv', 
+                                  'text/comma-separated-values,text/plain', 
+                                  '.csv'))),
+              
+               column(6,
+               
+               h2("Dataset 2"),
+               
+               
+               
+               fileInput('input2', 'Choose CSV or TXT File',
+                         accept=c('text/csv', 
+                                  'text/comma-separated-values,text/plain', 
+                                  '.csv'))),
+               
+               column(6, 
+              
+               # Contains the file a header? 
+               checkboxInput('header1', 'Header', TRUE)),
+               
+               
+               column(6, 
+               checkboxInput('header2', 'Header', TRUE)),
+               
+               column(6,
+                      # Are string to be coded as factor objects?
+                      checkboxInput("stringfactors1", "Strings as factors", FALSE)),
+               column(6, 
+                      # Are string to be coded as factor objects?
+                      checkboxInput("stringfactors2", "Strings as factors", FALSE)),
+               column(6,
+                      # Select separator
+                      radioButtons('sep1', 'Separator',
+                                   c(Comma=',',
+                                     Semicolon=';',
+                                     Tab='\t',
+                                     Whitespace = ''),
+                                   '\t')),
+                      
+               column(6, 
+                      # Select separator
+                      radioButtons('sep2', 'Separator',
+                                   c(Comma=',',
+                                     Semicolon=';',
+                                     Tab='\t',
+                                     Whitespace = ''),
+                                   '\t')),
+               column(6,
+                      radioButtons('decimal1', "Decimal",
+                                   c(Period = ".",
+                                     Comma = ","),
+                                   ".")),
+               column(6,
+                      
+                      radioButtons('decimal2', "Decimal",
+                                   c(Period = ".",
+                                     Comma = ","),
+                                   ".")),
+               
+               column(6,
+                      # Select appropriate quotes
+                      radioButtons('quote1', 'Quote',
+                                   c(None='',
+                                     'Double Quote'='"',
+                                     'Single Quote'="'"),
+                                   '"')),
+                      
+               
+               column(6,
+                      # Select appropriate quotes
+                      radioButtons('quote2', 'Quote',
+                                   c(None='',
+                                     'Double Quote'='"',
+                                     'Single Quote'="'"),
+                                   '"')),
+               
+               column(6,
+                      # Specify coding for NAs
+                      textInput("missing1",
+                                label = "Missing value coding:")),
+                 
+               column(6,
+                      # Specify coding for NAs
+                      textInput("missing2",
+                                label = "Missing value coding:")),
+               
+               h2("Network Comparison Test Specifications"),
+               
+               br(),
+               br(),
 
-      )  
+               
+               column(6,
+                      
+                      # specify amount of iterations
+                      numericInput("it",
+                                   label = "Amount of iterations",
+                                   value = 100)),
+               
+               column(6,
+                      
+                      # specify gamma
+                      numericInput("gamma",
+                                   label = "Gamma",
+                                   value = 0)),
+               
+               # weighted network TRUE/FALSE
+               column(6, 
+                      checkboxInput('weightedNCT', 'Weighted', FALSE)),
+               
+               # binary data TRUE/FALSE
+               
+               column(6, 
+                      checkboxInput('binary', 'Binary data', FALSE)),
+               
+               br(),
+               br(),
+               verbatimTextOutput("compnetwork")
+               
+        )
+      )
     )
   )
 )
+)
+
