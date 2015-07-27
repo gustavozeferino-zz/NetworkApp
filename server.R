@@ -426,7 +426,7 @@ shinyServer(
       {
         if(input$indegree == TRUE)
         {
-          "InDegree"
+          "InStrength"
         }
       }
     })
@@ -436,7 +436,7 @@ shinyServer(
       {
         if(input$outdegree == TRUE)
         {
-          "OutDegree"
+          "OutStrength"
         }
       }
     })
@@ -608,19 +608,19 @@ shinyServer(
                                      graph = est(),
                                      weighted = weight(),
                                      directed = direct(),
-                                     DoNotPlot = TRUE))
+                                     DoNotPlot = TRUE), standardized = FALSE)
         } else if(input$sortdata == "Adjacency Matrix")
         {
           centralityTable(qgraph(data(),
                                      weighted = weight(),
                                      directed = direct(),
-                                     DoNotPlot = TRUE))
+                                     DoNotPlot = TRUE), standardized = FALSE)
         } else if(input$sortdata == "Edgelist")
         {
           centralityTable(qgraph(data(),
                                      weighted = weight(),
                                      directed = direct(),
-                                     DoNotPlot = TRUE))
+                                     DoNotPlot = TRUE), standardized = FALSE)
         }
       })
      
@@ -965,7 +965,7 @@ gamm <- reactive({
   input$gamma
 })
 
-weight <- reactive({
+weightNCT <- reactive({
   input$weightedNCT
 })
 
@@ -1147,7 +1147,7 @@ NCT <- function(data1, data2, gamma, it, binary.data, weighted=TRUE, AND=TRUE,
 
 output$compnetwork <- renderPrint({
 print("p-value")
-NCT(data1(), data2(), gamma = gamm(), it = itt(), weighted = weight(), binary = binarydata(), progressbar=FALSE)$pval
+NCT(data1(), data2(), gamma = gamm(), it = itt(), weighted = weightNCT(), binary = binarydata(), progressbar=FALSE)$pval
 })
 
 

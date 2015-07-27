@@ -41,6 +41,9 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Change asthetics of clustering plot
   * Choose clustering measures 
 
+* Network Comparison tab
+  * ability to compare two network structures based on the weighted density
+
 ## Features that will be implemented:
 
 * Network visualization
@@ -73,13 +76,6 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * create "busy" notion 
  
 All features are implemented using the R-package qgraph version 1.3.1.
-
-
-## Latest Updates
-
-UPDATE (06-02-2015):
-* Added the options to estimate an FDR (false discovery rate) network and a VAR (vector autoregressive) network.
-* Added the option to estimate the skeleton and DAG with the IC-algorithm
 
 ## References:
 

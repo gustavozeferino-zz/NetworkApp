@@ -77,7 +77,7 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadexample', 'Download Example Data'),
   
                h5("Authors"),
-               p("Jolanda Kossakowski <mail@jolandakossakowski.eu> & Sacha Epskamp")),
+               p("Jolanda Kossakowski <mail@jolandakossakowski.eu> & Sacha Epskamp & Claudia van Borkulo")),
   mainPanel(
     tabsetPanel(
       tabPanel("Network", 
@@ -320,13 +320,13 @@ shinyUI(pageWithSidebar(
                # Visualize indegree measure
                # ONLY WITH ADJACENCY MATRIX OR EDGELIST
                checkboxInput("indegree",
-                             label = "In Degree",
+                             label = "In Strength",
                              value = FALSE),
                
                # Visualize outdegree measure
                # ONLY WITH ADJACENCY MATRIX OR EDGELIST
                checkboxInput("outdegree",
-                             label = "Out Degree",
+                             label = "Out Strength",
                              value = FALSE),
                
                tags$hr(),   
@@ -360,13 +360,13 @@ shinyUI(pageWithSidebar(
                # Print indegree measure
                # ONLY WITH ADJACENCY MATRIX OR EDGELIST
                checkboxInput("indegreetab",
-                             label = "In Degree",
+                             label = "In Strength",
                              value = FALSE),
                
                # Print outdegree measure
                # ONLY WITH ADJACENCY MATRIX OR EDGELIST
                checkboxInput("outdegreetab",
-                             label = "Out Degree",
+                             label = "Out Strength",
                              value = FALSE),
                
                
