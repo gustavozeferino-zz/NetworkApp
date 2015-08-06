@@ -296,39 +296,58 @@ shinyUI(pageWithSidebar(
                br(),
                br(),
                plotOutput("centplot"),
+              
+                
+               fluidRow(
+                        column(4,
+                        # Visualize strength measure
+                        checkboxInput("strength",
+                                      label = "Strength",
+                                      value = FALSE)),
+                        
+                        column(3,
+                               # Flip centrality plots 90 degrees
+                               checkboxInput("horizontal",
+                                             label = "Flip plot", 
+                                             value = FALSE))),
                
-               # Flip centrality plots 90 degrees
-               checkboxInput("horizontal",
-                             label = "Flip plot", 
-                             value = FALSE),
+               fluidRow(
+                 column(4,
+                        # Visualize betweenness measure
+                        checkboxInput("betweenness",
+                                      label = "Betweenness",
+                                      value = TRUE)),
+                 
+                 column(3,
+                        # return standardized values
+                        checkboxInput("standardizedcentplot",
+                                      label = "Standardized",
+                                      value = TRUE))),
                
-               # Visualize strength measure
-               checkboxInput("strength",
-                             label = "Strength",
-                             value = FALSE),
+               fluidRow(
+                 column(4,
+                        # Visualize closeness measure
+                        checkboxInput("closeness",
+                                      label = "Closeness",
+                                      value = TRUE))),
                
-               # Visualize betweenness measure
-               checkboxInput("betweenness",
-                             label = "Betweenness",
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Visualize indegree measure
+                        # ONLY WITH ADJACENCY MATRIX OR EDGELIST
+                        checkboxInput("indegree",
+                                      label = "In Strength",
+                                      value = FALSE))),
                
-               # Visualize closeness measure
-               checkboxInput("closeness",
-                             label = "Closeness",
-                             value = TRUE),
-               
-               # Visualize indegree measure
-               # ONLY WITH ADJACENCY MATRIX OR EDGELIST
-               checkboxInput("indegree",
-                             label = "In Strength",
-                             value = FALSE),
-               
-               # Visualize outdegree measure
-               # ONLY WITH ADJACENCY MATRIX OR EDGELIST
-               checkboxInput("outdegree",
-                             label = "Out Strength",
-                             value = FALSE),
-               
+               fluidRow(
+                 column(4,
+                        # Visualize outdegree measure
+                        # ONLY WITH ADJACENCY MATRIX OR EDGELIST
+                        checkboxInput("outdegree",
+                                      label = "Out Strength",
+                                      value = FALSE))),
+
+   
                tags$hr(),   
                
                # Download centrality plot
@@ -342,39 +361,54 @@ shinyUI(pageWithSidebar(
                br(),
                tableOutput("centtable"),
                
-               # Print strength measure
-               checkboxInput("strengthtab",
-                             label = "Strength",
-                             value = FALSE),
                
-               # Print betweenness measure
-               checkboxInput("betweennesstab",
-                             label = "Betweenness",
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Print strength measure
+                        checkboxInput("strengthtab",
+                                      label = "Strength",
+                                      value = FALSE)),
+                 column(3,
+                        # return standardized values
+                        checkboxInput("standardizedcenttab",
+                                      label = "Standardized",
+                                      value = TRUE))),
                
-               # Print closeness measure
-               checkboxInput("closenesstab",
-                             label = "Closeness",
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Print betweenness measure
+                        checkboxInput("betweennesstab",
+                                      label = "Betweenness",
+                                      value = TRUE))),
                
-               # Print indegree measure
-               # ONLY WITH ADJACENCY MATRIX OR EDGELIST
-               checkboxInput("indegreetab",
-                             label = "In Strength",
-                             value = FALSE),
+               fluidRow(
+                 column(4,
+                        # Print closeness measure
+                        checkboxInput("closenesstab",
+                                      label = "Closeness",
+                                      value = TRUE))),
                
-               # Print outdegree measure
-               # ONLY WITH ADJACENCY MATRIX OR EDGELIST
-               checkboxInput("outdegreetab",
-                             label = "Out Strength",
-                             value = FALSE),
+               fluidRow(
+                 column(4,
+                        # Print indegree measure
+                        # ONLY WITH ADJACENCY MATRIX OR EDGELIST
+                        checkboxInput("indegreetab",
+                                      label = "In Strength",
+                                      value = FALSE))),
                
-               
+               fluidRow(
+                 column(4,
+                        # Print outdegree measure
+                        # ONLY WITH ADJACENCY MATRIX OR EDGELIST
+                        checkboxInput("outdegreetab",
+                                      label = "Out Strength",
+                                      value = FALSE))),
                
                tags$hr(),
                
                # Download centrality table
                downloadButton('downloadcentralitytable', 'Download Centrality Table'),
+
                br(),
                br()),
       
@@ -385,30 +419,44 @@ shinyUI(pageWithSidebar(
                
                tags$hr(),
                
-               # Turn clustering plot 90 degrees
-               checkboxInput("horizontal",
-                             label = "Flip plot", 
-                             value = FALSE),
+               fluidRow(
+                 column(4,
+                        # Visualize WS measure
+                        checkboxInput("ws",
+                                      label = "WS", 
+                                      value = TRUE)),
+                 
+                 # Turn clustering plot 90 degrees
+                 column(4,
+                        checkboxInput("horizontal",
+                               label = "Flip plot", 
+                               value = FALSE))),
                
-               # Visualize WS measure
-               checkboxInput("ws",
-                             label = "WS", 
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Visualize zhang measure
+                        checkboxInput("zhang",
+                                      label = "Zhang",
+                                      value = TRUE)),
+                 column(3,
+                        # return standardized values
+                        checkboxInput("standardizedclustplot",
+                                      label = "Standardized",
+                                      value = TRUE))),
+
+               fluidRow(
+                 column(4,
+                        # Visualize Onnela measure
+                        checkboxInput("onnela",
+                                      label = "Onnela",
+                                      value = TRUE))),
                
-               # Visualize zhang measure
-               checkboxInput("zhang",
-                             label = "Zhang",
-                             value = TRUE),
-               
-               # Visualize Onnela measure
-               checkboxInput("onnela",
-                             label = "Onnela",
-                             value = TRUE),
-               
-               # Visualize Barrat measure
-               checkboxInput("barrat",
-                             label = "Barrat",
-                             value = TRUE),               
+               fluidRow(
+                 column(4,
+                        # Visualize Barrat measure
+                        checkboxInput("barrat",
+                                      label = "Barrat",
+                                      value = TRUE))),
                
                tags$hr(), 
                
@@ -420,30 +468,44 @@ shinyUI(pageWithSidebar(
                br(),
                tableOutput("clusttable"),
                
-               # Print WS measure
-               checkboxInput("wstab",
-                             label = "WS", 
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Print WS measure
+                        checkboxInput("wstab",
+                                      label = "WS", 
+                                      value = TRUE)),
+                 
+                 column(3,
+                        # return standardized values
+                        checkboxInput("standardizedclusttab",
+                                      label = "Standardized",
+                                      value = TRUE))),
                
-               # Print Zhang measure
-               checkboxInput("zhangtab",
-                             label = "Zhang",
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Print Zhang measure
+                        checkboxInput("zhangtab",
+                                      label = "Zhang",
+                                      value = TRUE))),
                
-               # Print Onnela measure
-               checkboxInput("onnelatab",
-                             label = "Onnela",
-                             value = TRUE),
-               
-               # Print Barrat measure
-               checkboxInput("barrattab",
-                             label = "Barrat",
-                             value = TRUE),
+               fluidRow(
+                 column(4,
+                        # Print Onnela measure
+                        checkboxInput("onnelatab",
+                                      label = "Onnela",
+                                      value = TRUE))),
+               fluidRow(
+                 column(4,
+                        # Print Barrat measure
+                        checkboxInput("barrattab",
+                                      label = "Barrat",
+                                      value = TRUE))),
                
                tags$hr(),
                
                # Download clustering table
                downloadButton('downloadclusteringtable', 'Download Clustering Table'),
+
                br(),
                br()),
       

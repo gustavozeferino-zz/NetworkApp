@@ -61,19 +61,22 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
 * Centrality tab
   * Add asthetics of centrality plot
   * Add option to sort centrality measures based on value
+  * Highlight maximum/minimum values
   * Add centrality measures:
     * Eigenvector centrality
     * Bonacich power
     * Alpha centrality
+    
   
 * Clustering tab
   * Add asthetics of clustering plot
   * Add option to sort clustering measures based on value
+  * Highlight maximum/minimum values
   
 * Other features
   * Plot that compares centrality measure against clustering measure with median values of both
   * Add possibility to mention which column had participant numbers in them
-  * create "busy" notion 
+  * create "busy" notion whilst constructing networks
  
 All features are implemented using the R-package qgraph version 1.3.1.
 
