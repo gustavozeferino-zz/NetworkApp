@@ -4,12 +4,13 @@ This Shiny application visualizes a graph structure for a dataset. The user can 
 
 This application is a project that is under construction, features will be added along the way. If you have any suggestions as to what features are useful to be added, please feel free to contact me at mail[at]jolandakossakowski[dot]eu.
 
-Version 0.2 of this application has now been released. Visit https://jolandakos.shinyapps.io/NetworkApp/ to try it out!
+Version 0.3 of this application has now been released. Visit https://jolandakos.shinyapps.io/NetworkApp/ to try it out!
 
 ## Current available features:
 
 * General
   * Demo version option that will automatically upload predefined data if chosen
+  * The app will automatically detect the correct settings for uploading the data
   
 * Network Estimation
   * Add a title
@@ -65,7 +66,6 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
     * Eigenvector centrality
     * Bonacich power
     * Alpha centrality
-    
   
 * Clustering tab
   * Add asthetics of clustering plot
