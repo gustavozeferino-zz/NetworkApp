@@ -575,7 +575,7 @@ shinyServer(
       ncol <- rep(FALSE, times = 10)
       
       ncol[2] = TRUE
-      if(input$sortdata == "Raw Data")
+      if(input$direction == FALSE)
       {
         if(input$strengthtab == TRUE)
         {
@@ -590,14 +590,14 @@ shinyServer(
       {
         ncol[6] = TRUE
       }
-      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      if(input$direction == TRUE)
       {
         if(input$indegreetab == TRUE)
         {
           ncol[8] = TRUE
         }      
       }
-      if(input$sortdata == "Adjacency Matrix" | input$sortdata == "Edgelist")
+      if(input$direction == TRUE)
       {
         if(input$outdegreetab == TRUE)
         {
@@ -710,7 +710,6 @@ shinyServer(
                                    esize = es(),
                                    vsize = ns(),
                                    weighted = weight(),
-                                   directed = direct(),
                                    sampleSize = nrow(data()),
                                    graph = est(),
                                    DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
@@ -727,7 +726,6 @@ shinyServer(
                                    esize = es(),
                                    vsize = ns(),
                                    weighted = weight(),
-                                   directed = direct(),
                                    DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
       } else if(input$sortdata == "Edgelist")
       {
@@ -742,7 +740,6 @@ shinyServer(
                                    esize = es(),
                                    vsize = ns(),
                                    weighted = weight(),
-                                   directed = direct(),
                                    DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
       }
       
@@ -779,7 +776,6 @@ shinyServer(
                                      esize = es(),
                                      vsize = ns(),
                                      weighted = weight(),
-                                     directed = direct(),
                                      sampleSize = nrow(data()),
                                      graph = est(),
                                      DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
@@ -796,7 +792,6 @@ shinyServer(
                                      esize = es(),
                                      vsize = ns(),
                                      weighted = weight(),
-                                     directed = direct(),
                                      DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
         } else if(input$sortdata == "Edgelist")
         {
@@ -811,7 +806,6 @@ shinyServer(
                                      esize = es(),
                                      vsize = ns(),
                                      weighted = weight(),
-                                     directed = direct(),
                                      DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
         }
         dev.off()
@@ -857,7 +851,6 @@ shinyServer(
                                  esize = es(),
                                  vsize = ns(),
                                  weighted = weight(),
-                                 directed = direct(),
                                  sampleSize = nrow(data()),
                                  graph = est(),
                                  DoNotPlot = TRUE), standardized = input$standardizedclusttab)
@@ -874,7 +867,6 @@ shinyServer(
                                  esize = es(),
                                  vsize = ns(),
                                  weighted = weight(),
-                                 directed = direct(),
                                  DoNotPlot = TRUE), standardized = input$standardizedclusttab)
         } else if(input$sortdata == "Edgelist")
         {
@@ -889,7 +881,6 @@ shinyServer(
                                  esize = es(),
                                  vsize = ns(),
                                  weighted = weight(),
-                                 directed = direct(),
                                  DoNotPlot = TRUE), standardized = input$standardizedclusttab)
         }
       })
