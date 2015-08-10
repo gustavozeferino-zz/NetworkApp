@@ -34,38 +34,12 @@ shinyUI(pageWithSidebar(
                                           "Adjacency Matrix",
                                           "Edgelist"), selected = "Raw Data"),   
                tags$hr(),
-               # Contains the file a header? 
-               checkboxInput('header', 'Header', TRUE),
-               
+
                # Are string to be coded as factor objects?
                checkboxInput("stringfactors", "Strings as factors", FALSE),
                
                tags$hr(),
                
-               # Select separator
-               radioButtons('sep', 'Separator',
-                            c(Comma=',',
-                              Semicolon=';',
-                              Tab='\t',
-                              Whitespace = ''),
-                            '\t'),
-               
-               tags$hr(),
-               
-               # Select decimal symbol
-               radioButtons('decimal', "Decimal",
-                            c(Period = ".",
-                              Comma = ","),
-                            ","),
-               
-               tags$hr(),
-               
-               # Select appropriate quotes
-               radioButtons('quote', 'Quote',
-                            c(None='',
-                              'Double Quote'='"',
-                              'Single Quote'="'"),
-                            '"'),
                
                # Specify coding for NAs
                textInput("missing",

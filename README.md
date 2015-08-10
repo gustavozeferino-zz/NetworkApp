@@ -42,7 +42,7 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Choose clustering measures 
 
 * Network Comparison tab
-  * ability to compare two network structures based on the weighted density
+  * Ability to compare two network structures based on the weighted density
 
 ## Features that will be implemented:
 
@@ -51,7 +51,6 @@ Version 0.2 of this application has now been released. Visit https://jolandakos.
   * Add a legend
   * Change node colours
   * Extend functions for more than 1 dataset
-  * Implement network comparison method
   * Small World Index
   * Implement Graphical VAR function
   * Implement option for uploading Time Series Data
