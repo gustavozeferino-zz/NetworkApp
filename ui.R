@@ -65,6 +65,11 @@ shinyUI(pageWithSidebar(
                br(),
                br(),
                br(),
+               
+               p("The Small-World Index of this network is"),
+               verbatimTextOutput("swi"),
+               br(),
+               
                fluidRow(
                  column(4,
                         
@@ -320,8 +325,7 @@ shinyUI(pageWithSidebar(
                         checkboxInput("outdegree",
                                       label = "Out Strength",
                                       value = FALSE))),
-
-   
+        
                tags$hr(),   
                
                # Download centrality plot

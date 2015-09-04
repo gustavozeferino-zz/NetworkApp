@@ -7,6 +7,7 @@ library("huge")
 library("qgraph")
 library("psych")
 library("pcalg")
+library("igraph")
 
 # example dataset for demo versions
 data(bfi)
@@ -317,6 +318,51 @@ shinyServer(
                diag = plotdiag())
       }
     }, width = "auto", height = 500) #exit visualizing network 
+    
+    # Calculate small-world index
+    
+   SWI <- reactive({
+     if(input$sortdata == "Raw Data")
+     {
+       as.numeric(smallworldness(qgraph(norm(),
+                             graph = est(),
+                             sampleSize = nrow(data()),
+                             weighted = weight(),
+                             directed = direct(),
+                             threshold = thres(),
+                             minimum = min(),
+                             maximum = max(),
+                             cut = ct(),
+                             diag = plotdiag()))[1])
+     } else if(input$sortdata == "Adjacency Matrix")
+     {
+       as.numeric(smallworldness(qgraph(data(),
+                             weighted = weight(),
+                             directed = direct(),
+                             threshold = thres(),
+                             minimum = min(),
+                             maximum = max(),
+                             cut = ct(),
+                             diag = plotdiag()))[1])
+     } else if(input$sortdata == "Edgelist")
+     {
+       as.numeric(smallworldness(qgraph(data(),
+                             weighted = weight(),
+                             directed = direct(),
+                             threshold = thres(),
+                             minimum = min(),
+                             maximum = max(),
+                             cut = ct(),
+                             diag = plotdiag()))[1])
+     }
+   })
+   
+   # diplay SWI
+   
+   output$swi <- renderPrint({
+     SWI()
+   })
+   
     
     # Download network image
     output$downloadnetwork <- downloadHandler(

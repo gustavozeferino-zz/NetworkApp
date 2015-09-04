@@ -29,6 +29,7 @@ Version 0.3 of this application has now been released. Visit https://jolandakos.
   * Various network estimation options
   * Option for performing non-paranormal transformation
   * Option for coding missing values
+  * Calculate and report the Small-World Index
   
 * Centrality tab
   * Add second tab with centrality table and plot
@@ -52,7 +53,6 @@ Version 0.3 of this application has now been released. Visit https://jolandakos.
   * Add a legend
   * Change node colours
   * Extend functions for more than 1 dataset
-  * Small World Index
   * Implement Graphical VAR function
   * Implement option for uploading Time Series Data
     * Implement option for lag-0 network
@@ -62,10 +62,6 @@ Version 0.3 of this application has now been released. Visit https://jolandakos.
   * Add asthetics of centrality plot
   * Add option to sort centrality measures based on value
   * Highlight maximum/minimum values
-  * Add centrality measures:
-    * Eigenvector centrality
-    * Bonacich power
-    * Alpha centrality
   
 * Clustering tab
   * Add asthetics of clustering plot
