@@ -6,6 +6,9 @@ This application is a project that is under construction, features will be added
 
 Version 0.3 of this application has now been released. Visit https://jolandakos.shinyapps.io/NetworkApp/ to try it out!
 
+It is also possible to use the app in R by running the following line of R-code:
+`source("https://raw.githubusercontent.com/JolandaKossakowski/NetworkApp/master/runapp.R")`
+
 ## Current available features:
 
 * General
