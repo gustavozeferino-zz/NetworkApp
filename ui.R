@@ -127,7 +127,9 @@ shinyUI(pageWithSidebar(
                                                 "IC-Algorithm: Skeleton",
                                                 "Partial Correlation",
                                                 "Pearson Correlation",
-                                                "VAR-model"),
+                                                "VAR-model",
+                                                "Graphical VAR: PCC",
+                                                "Graphical VAR: PDC"),
                                     selected = "Partial Correlation")),
                  column(3,    
                         

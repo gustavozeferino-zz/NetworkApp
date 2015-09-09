@@ -1,13 +1,14 @@
 ## Network App ##
 
-library("shiny")
-library("devtools")
-library("ggplot2")
-library("huge")
-library("qgraph")
-library("psych")
-library("pcalg")
-library("igraph")
+library(shiny)
+library(devtools)
+library(ggplot2)
+library(huge)
+library(qgraph)
+library(psych)
+library(pcalg)
+library(igraph)
+library(graphicalVAR)
 
 # example dataset for demo versions
 data(bfi)
@@ -57,8 +58,6 @@ shinyServer(
           file <- read.delim(inFile$datapath, na.strings = na, stringsAsFactors = input$stringfactors)
         }
       }
-      
-      
     }) #exit data defining
     
     # Use chosen layout
@@ -219,6 +218,15 @@ shinyServer(
         {
           pc(suffStat = list(C = cor(data(), use = "pairwise.complete.obs"), n = nrow(data())), indepTest = indeptest(), alpha = 0.05, labels = colnames(data()))
         } 
+      } else if(input$method == "Graphical VAR: PCC" | input$method == "Graphical VAR: PDC")
+      {
+        if(input$normal == TRUE)
+        {
+          graphicalVAR(huge.npn(data()))
+        } else
+        {
+          graphicalVAR(data())
+        }
       } else  
         {
           if(input$normal == TRUE)
@@ -258,7 +266,7 @@ shinyServer(
       if(is.null(data()))
       {
         return(NULL)
-      } else if(input$sortdata == "Raw Data")
+      } else if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
       {
           qgraph(norm(),
                  layout = lay(), 
@@ -316,13 +324,50 @@ shinyServer(
                shape = shapenode(),
                pastel = past(),
                diag = plotdiag())
+      } else if(input$method == "Graphical VAR: PCC")
+      {
+        qgraph(norm()$PCC,
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
+      } else if(input$method == "Graphical VAR: PDC")
+      {
+        qgraph(norm()$PDC,
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               asize = es(),
+               weighted = weight(),
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
       }
     }, width = "auto", height = 500) #exit visualizing network 
     
     # Calculate small-world index
     
    SWI <- reactive({
-     if(input$sortdata == "Raw Data")
+     if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
      {
        as.numeric(smallworldness(qgraph(norm(),
                              graph = est(),
@@ -354,15 +399,34 @@ shinyServer(
                              maximum = max(),
                              cut = ct(),
                              diag = plotdiag()))[1])
+     } else if(input$method == "Graphical VAR: PCC")
+     {
+       as.numeric(smallworldness(qgraph(norm()$PCC,
+                                        weighted = weight(),
+                                        directed = direct(),
+                                        threshold = thres(),
+                                        minimum = min(),
+                                        maximum = max(),
+                                        cut = ct(),
+                                        diag = plotdiag()))[1])
+     } else if(input$method == "Graphical VAR: PDC")
+     {
+       as.numeric(smallworldness(qgraph(norm()$PDC,
+                                        weighted = weight(),
+                                        directed = direct(),
+                                        threshold = thres(),
+                                        minimum = min(),
+                                        maximum = max(),
+                                        cut = ct(),
+                                        diag = plotdiag()))[1])
      }
    })
    
-   # diplay SWI
+   # display SWI
    
    output$swi <- renderPrint({
      SWI()
    })
-   
     
     # Download network image
     output$downloadnetwork <- downloadHandler(
@@ -373,7 +437,7 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
-       if(input$sortdata == "Raw Data")
+       if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
       {
         qgraph(norm(),
                layout = lay(), 
@@ -414,6 +478,42 @@ shinyServer(
       } else if(input$sortdata == "Edgelist")
       {
         qgraph(data(),
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
+      } else if(input$method == "Graphical VAR: PCC")
+      {
+        qgraph(norm()$PCC,
+               layout = lay(), 
+               labels = lab(),
+               title = tit(),
+               minimum = min(),
+               maximum = max(),
+               cut = ct(),
+               details = det(),
+               esize = es(),
+               vsize = ns(),
+               weighted = weight(),
+               directed = direct(),
+               threshold = thres(),
+               shape = shapenode(),
+               pastel = past(),
+               diag = plotdiag())
+      } else if(input$method == "Graphical VAR: PDC")
+      {
+        qgraph(norm()$PDC,
                layout = lay(), 
                labels = lab(),
                title = tit(),
@@ -500,7 +600,7 @@ shinyServer(
     output$centplot <- renderPlot({
       
       # Plot centrality results
-      if(input$sortdata == "Raw Data")
+      if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
       {
         cent <- centralityPlot(qgraph(norm(),
                sampleSize = nrow(data()),
@@ -520,6 +620,18 @@ shinyServer(
                                       weighted = weight(),
                                       directed = direct(),
                                       DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
+      } else if(input$method == "Graphical VAR: PCC")
+      {
+        cent <- centralityPlot(qgraph(norm()$PCC,
+                                      weighted = weight(),
+                                      directed = direct(),
+                                      DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
+      } else if(input$method == "Graphical VAR: PDC")
+      {
+        cent <- centralityPlot(qgraph(norm()$PDC,
+                                      weighted = weight(),
+                                      directed = direct(),
+                                      DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
       }
       
       # Flip plot if chosen
@@ -528,7 +640,7 @@ shinyServer(
         print(cent + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip())
       } else
       {
-        print(cent)
+        print(cent + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)))
       }
     }) # exit centrality plot  
     
@@ -544,7 +656,7 @@ shinyServer(
         if(input$horizontal == TRUE)
         {
           pdf(file)
-          if(input$sortdata == "Raw Data")
+          if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
           {
             g <- centralityPlot(qgraph(norm(),
                                       sampleSize = nrow(data()),
@@ -564,13 +676,25 @@ shinyServer(
                                        weighted = weight(),
                                        directed = direct(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          } else if(input$method == "Graphical VAR: PCC")
+          {
+            g <- centralityPlot(qgraph(norm()$PCC,
+                                          weighted = weight(),
+                                          directed = direct(),
+                                          DoNotPlot = TRUE), print = FALSE, include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
+          } else if(input$method == "Graphical VAR: PDC")
+          {
+            g <- centralityPlot(qgraph(norm()$PDC,
+                                          weighted = weight(),
+                                          directed = direct(),
+                                          DoNotPlot = TRUE), print = FALSE, include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           }
           print(g)
           dev.off()
         } else
         {
           pdf(file)
-          if(input$sortdata == "Raw Data")
+          if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
           {
             g <- centralityPlot(qgraph(norm(),
                                        sampleSize = nrow(data()),
@@ -590,11 +714,26 @@ shinyServer(
                                        weighted = weight(),
                                        directed = direct(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
+          } else if(input$method == "Graphical VAR: PCC")
+          {
+            g <- centralityPlot(qgraph(norm()$PCC,
+                                       sampleSize = nrow(data()),
+                                       graph = est(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
+          } else if(input$method == "Graphical VAR: PDC")
+          {
+            g <- centralityPlot(qgraph(norm()$PDC,
+                                       sampleSize = nrow(data()),
+                                       graph = est(),
+                                       weighted = weight(),
+                                       directed = direct(),
+                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           }
           print(g)
           dev.off()
         }
-
       }) #exit download centrality plot  
     
     ########################
@@ -659,7 +798,7 @@ shinyServer(
       
       # Print centrality table
       centtab <- reactive({
-        if(input$sortdata == "Raw Data")
+        if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
         {
           centralityTable(qgraph(norm(),
                                      sampleSize = nrow(data()),
@@ -678,14 +817,30 @@ shinyServer(
           centralityTable(qgraph(data(),
                                      weighted = weight(),
                                      directed = direct(),
-                                     DoNotPlot = TRUE), standardized = input$standardizedcenttab)}
+                                     DoNotPlot = TRUE), standardized = input$standardizedcenttab)
+          } else if(input$method == "Graphical VAR: PCC")
+          {
+            centralityTable(qgraph(norm()$PCC,
+                                   sampleSize = nrow(data()),
+                                   graph = est(),
+                                   weighted = weight(),
+                                   directed = direct(),
+                                   DoNotPlot = TRUE), standardized = input$standardizedcenttab)
+          } else if(input$method == "Graphical VAR: PDC")
+          {
+            centralityTable(qgraph(norm()$PDC,
+                                   sampleSize = nrow(data()),
+                                   graph = est(),
+                                   weighted = weight(),
+                                   directed = direct(),
+                                   DoNotPlot = TRUE), standardized = input$standardizedcenttab)
+          }
       })
      
       reshape(centtab(), timevar = "measure",
               idvar = c("graph", "node"),
               direction = "wide")[, ncol]
-      
-
+    
     }) #exit centrality table (global variable)
     
     
@@ -749,7 +904,7 @@ shinyServer(
     output$clustplot <- renderPlot({
       
       # Plot clustering measures    
-      if(input$sortdata == "Raw Data")
+      if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
       {
         c <- clusteringPlot(qgraph(norm(),
                                    layout = lay(), 
@@ -796,6 +951,40 @@ shinyServer(
                                    weighted = weight(),
                                    directed = FALSE,
                                    DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
+      } else if(input$method == "Graphical VAR: PCC")
+      {
+        c <- clusteringPlot(qgraph(norm()$PCC,
+                                   layout = lay(), 
+                                   labels = lab(),
+                                   title = tit(),
+                                   minimum = min(),
+                                   maximum = max(),
+                                   cut = ct(),
+                                   details = det(),
+                                   esize = es(),
+                                   vsize = ns(),
+                                   weighted = weight(),
+                                   directed = FALSE,
+                                   sampleSize = nrow(data()),
+                                   graph = est(),
+                                   DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
+      } else if(input$method == "Graphical VAR: PDC")
+      {
+        c <- clusteringPlot(qgraph(norm()$PDC,
+                                   layout = lay(), 
+                                   labels = lab(),
+                                   title = tit(),
+                                   minimum = min(),
+                                   maximum = max(),
+                                   cut = ct(),
+                                   details = det(),
+                                   esize = es(),
+                                   vsize = ns(),
+                                   weighted = weight(),
+                                   directed = FALSE,
+                                   sampleSize = nrow(data()),
+                                   graph = est(),
+                                   DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
       }
       
       # Flip plot if chosen
@@ -818,7 +1007,7 @@ shinyServer(
       content = function(file) 
       {
         pdf(file)
-        if(input$sortdata == "Raw Data")
+        if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
         {
           clusteringPlot(qgraph(norm(),
                                      layout = lay(), 
@@ -865,6 +1054,40 @@ shinyServer(
                                      weighted = weight(),
                                      directed = FALSE,
                                      DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
+        } else if(input$method == "Graphical VAR: PCC")
+        {
+          clusteringPlot(qgraph(norm()$PCC,
+                                layout = lay(), 
+                                labels = lab(),
+                                title = tit(),
+                                minimum = min(),
+                                maximum = max(),
+                                cut = ct(),
+                                details = det(),
+                                esize = es(),
+                                vsize = ns(),
+                                weighted = weight(),
+                                directed = FALSE,
+                                sampleSize = nrow(data()),
+                                graph = est(),
+                                DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
+        } else if(input$method == "Graphical VAR: PCC")
+        {
+          clusteringPlot(qgraph(norm()$PDC,
+                                layout = lay(), 
+                                labels = lab(),
+                                title = tit(),
+                                minimum = min(),
+                                maximum = max(),
+                                cut = ct(),
+                                details = det(),
+                                esize = es(),
+                                vsize = ns(),
+                                weighted = weight(),
+                                directed = FALSE,
+                                sampleSize = nrow(data()),
+                                graph = est(),
+                                DoNotPlot = TRUE), include = c(wes(), zh(), onn(), bar()), standardized = input$standardizedclustplot)
         }
         dev.off()
       })     #exit download clustering plot  
@@ -896,7 +1119,7 @@ shinyServer(
       
       # Print clustering table
       clusttab <- reactive({
-        if(input$sortdata == "Raw Data")
+        if(input$sortdata == "Raw Data" & input$method != "Graphical VAR: PDC" & input$method != "Graphical VAR: PCC")
         {
           clusteringTable(qgraph(norm(),
                                  layout = lay(), 
@@ -942,6 +1165,40 @@ shinyServer(
                                  vsize = ns(),
                                  weighted = weight(),
                                  directed = FALSE,
+                                 DoNotPlot = TRUE), standardized = input$standardizedclusttab)
+        } else if(input$method == "Graphical VAR: PCC")
+        {
+          clusteringTable(qgraph(norm()$PCC,
+                                 layout = lay(), 
+                                 labels = lab(),
+                                 title = tit(),
+                                 minimum = min(),
+                                 maximum = max(),
+                                 cut = ct(),
+                                 details = det(),
+                                 esize = es(),
+                                 vsize = ns(),
+                                 weighted = weight(),
+                                 directed = FALSE,
+                                 sampleSize = nrow(data()),
+                                 graph = est(),
+                                 DoNotPlot = TRUE), standardized = input$standardizedclusttab)
+        } else if(input$method == "Graphical VAR: PDC")
+        {
+          clusteringTable(qgraph(norm()$PDC,
+                                 layout = lay(), 
+                                 labels = lab(),
+                                 title = tit(),
+                                 minimum = min(),
+                                 maximum = max(),
+                                 cut = ct(),
+                                 details = det(),
+                                 esize = es(),
+                                 vsize = ns(),
+                                 weighted = weight(),
+                                 directed = FALSE,
+                                 sampleSize = nrow(data()),
+                                 graph = est(),
                                  DoNotPlot = TRUE), standardized = input$standardizedclusttab)
         }
       })
