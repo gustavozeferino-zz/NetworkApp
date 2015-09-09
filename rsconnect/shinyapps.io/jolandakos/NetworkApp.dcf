@@ -1,4 +1,6 @@
 name: NetworkApp
 account: jolandakos
-bundleId: 233558
+server: shinyapps.io
+bundleId: 261066
 url: https://jolandakos.shinyapps.io/NetworkApp
+when: 1441794567.53163
