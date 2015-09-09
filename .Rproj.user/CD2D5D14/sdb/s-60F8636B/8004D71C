@@ -1,0 +1,16 @@
+{
+    "contents" : "---\ntitle: \"Network Application\"\nsubtitle: \"Programming: The Next Step\"\nauthor: \"Jolanda J. Kossakowski, BSc\"\ndate: \"April 28, 2015\"\nframework   : io2012       # {io2012, html5slides, shower, dzslides, ...\nhighlighter : highlight.js  # {highlight.js, prettify, highlight\nhitheme     : tomorrow    # \nwidgets     : [mathjax]            # {mathjax, quiz, bootstrap\nmode        : selfcontained # {selfcontained, standalone, draft  \noutput:\n  #pdf_document:\n  ioslides_presentation:\n    # mathjax: local\n    # self_contained: false\n    #transition: faster\n    incremental: true\n    highlight: tango\n    fontsize: 11pt\n\n---\n\n## Introduction\n\n- In **Network Analysis**, it is assumed that a construct is understood as a network of mutually interacting variables\n\n- The network approach stands opposite to the **Latent Variable Approach**, where a construct may be a common cause to observed variables.\n\n- The network approach has gained popularity over the years and has already been applied to psychopathology, intelligence and personality research.\n\n\n## Problem\n\n- Network analysis has been made publicly accessible by the introduction of the qgraph-package in R.\n\n- Unfortunately, one has to learn R in order to perform a network analysis, or outsource it to researchers who already know R.\n\n## Solution\n\n- The Network Application is a web application build so that users can perform network analysis without having to know R.\n\n- Users can upload their own .txt or .csv files and a network will be created on the spot that can be downloaded as a .pdf\n\n-  [Demo](https://jolandakos.shinyapps.io/NetworkApp/)\n\n\n## Questions\n\n![alt text](QuestionMark.jpeg)",
+    "created" : 1429794456153.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "129803725",
+    "id" : "8004D71C",
+    "lastKnownWriteTime" : 1429795717,
+    "path" : "~/Documents/UvA/Jaar 5 2014-2015/Semester 2/Programming The Next Step/First Presentation/presentation_6229204.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
