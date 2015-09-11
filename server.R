@@ -145,12 +145,6 @@ shinyServer(
       input$nodesize
     })  
     
-    # Use pastel colours TRUE/FALSE
-    # DOES NOT WORK 
-    past <- reactive({
-      input$pastelcol
-    })
-    
     plotdiag <- reactive({
       input$diagonal
     })
@@ -303,7 +297,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$sortdata == "Edgelist")
       {
@@ -322,7 +315,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$method == "Graphical VAR: PCC")
       {
@@ -340,7 +332,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$method == "Graphical VAR: PDC")
       {
@@ -359,7 +350,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       }
     }, width = "auto", height = 500) #exit visualizing network 
@@ -399,27 +389,10 @@ shinyServer(
                              maximum = max(),
                              cut = ct(),
                              diag = plotdiag()))[1])
-     } else if(input$method == "Graphical VAR: PCC")
+     } else if(input$method == "Graphical VAR: PCC" | input$method == "Graphical VAR: PDC")
      {
-       as.numeric(smallworldness(qgraph(norm()$PCC,
-                                        weighted = weight(),
-                                        directed = direct(),
-                                        threshold = thres(),
-                                        minimum = min(),
-                                        maximum = max(),
-                                        cut = ct(),
-                                        diag = plotdiag()))[1])
-     } else if(input$method == "Graphical VAR: PDC")
-     {
-       as.numeric(smallworldness(qgraph(norm()$PDC,
-                                        weighted = weight(),
-                                        directed = direct(),
-                                        threshold = thres(),
-                                        minimum = min(),
-                                        maximum = max(),
-                                        cut = ct(),
-                                        diag = plotdiag()))[1])
-     }
+      "not applicable"
+     } 
    })
    
    # display SWI
@@ -455,7 +428,6 @@ shinyServer(
                graph = est(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$sortdata == "Adjacency Matrix")
       {
@@ -473,7 +445,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$sortdata == "Edgelist")
       {
@@ -491,7 +462,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$method == "Graphical VAR: PCC")
       {
@@ -509,7 +479,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       } else if(input$method == "Graphical VAR: PDC")
       {
@@ -527,7 +496,6 @@ shinyServer(
                directed = direct(),
                threshold = thres(),
                shape = shapenode(),
-               pastel = past(),
                diag = plotdiag())
       }
         dev.off()

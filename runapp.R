@@ -46,4 +46,17 @@ if(!"ggplot2" %in% installed.packages())
 }
 library(ggplot2)
 
+if(!"graphicalVAR" %in% installed.packages())
+{
+  install.packages("graphicalVAR")
+}
+library(graphicalVAR)
+
+if(!"graph" %in% installed.packages())
+{
+  source("https://bioconductor.org/biocLite.R")
+  biocLite("graph")
+}
+library(graph)
+
 runGitHub("NetworkApp", "JolandaKossakowski") 

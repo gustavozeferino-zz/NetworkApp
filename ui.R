@@ -51,7 +51,11 @@ shinyUI(pageWithSidebar(
                downloadButton('downloadexample', 'Download Example Data'),
   
                h5("Authors"),
-               p("Jolanda Kossakowski <mail@jolandakossakowski.eu> & Sacha Epskamp & Claudia van Borkulo")),
+               p("Jolanda Kossakowski <mail@jolandakossakowski.eu> & Sacha Epskamp & Claudia van Borkulo"),
+               br(),
+               p("If you want to run the application in R, please run the following R-code:"),
+               tags$a(href = "https://raw.githubusercontent.com/JolandaKossakowski/NetworkApp/master/runapp.R", "R-code")),
+  
   mainPanel(
     tabsetPanel(
       tabPanel("Network", 
@@ -75,14 +79,7 @@ shinyUI(pageWithSidebar(
                         
                         # Download network as pdf
                         downloadButton('downloadnetwork', 'Download PDF')),
-                 
-                 column(3,
-                        
-                        # Use node labels TRUE/FALSE
-                        checkboxInput("node_labels",
-                                      label = "Node Labels", 
-                                      value = TRUE)),
-                 
+    
                  column(3,
                         
                         # Set threshold for edge weight
@@ -90,7 +87,15 @@ shinyUI(pageWithSidebar(
                                     label = "Edge Threshold:",
                                     min = 0,
                                     max = 1,
-                                    value = 0))),
+                                    value = 0)),
+               
+                 column(3,
+                        
+                        # Use node labels TRUE/FALSE
+                        checkboxInput("node_labels",
+                                      label = "Node Labels", 
+                                      value = TRUE))),
+                 
                
                fluidRow(
                  column(4,
@@ -101,19 +106,19 @@ shinyUI(pageWithSidebar(
                  
                  column(3,
                         
-                        # Weighted graph TRUE/FALSE
-                        checkboxInput("weighted",
-                                      label = "Edge Weights",
-                                      value = TRUE)),
-                 
-                 column(3,
-                        
                         # Select minimum value edge weights
                         sliderInput("minimum",
                                     label = "Minimum Edge Weight:",
                                     min = 0,
                                     max = 1,
-                                    value = 0))),
+                                    value = 0)),
+                 
+                 column(3,
+                        
+                        # Weighted graph TRUE/FALSE
+                        checkboxInput("weighted",
+                                      label = "Edge Weights",
+                                      value = TRUE))),
                
                fluidRow(
                  column(4,
@@ -131,12 +136,6 @@ shinyUI(pageWithSidebar(
                                                 "Graphical VAR: PCC",
                                                 "Graphical VAR: PDC"),
                                     selected = "Partial Correlation")),
-                 column(3,    
-                        
-                        # Directed edges TRUE/FALSE
-                        checkboxInput("direction",
-                                      label = "Directed Edges",
-                                      value = FALSE)),
                  
                  column(3,
                         
@@ -145,7 +144,14 @@ shinyUI(pageWithSidebar(
                                     label = "Maximum Edge Weight:",
                                     min = 0,
                                     max = 1,
-                                    value = 1))),
+                                    value = 1)),
+                 
+                 column(3,    
+                        
+                        # Directed edges TRUE/FALSE
+                        checkboxInput("direction",
+                                      label = "Directed Edges",
+                                      value = FALSE))),
                
                fluidRow(
                  column(4,
@@ -158,13 +164,6 @@ shinyUI(pageWithSidebar(
                                                 "Grouped Circle"),
                                     selected = "Spring")),
                  
-                                  
-                 column(3,
-                        
-                        # Plot graph details TRUE/FALSE
-                        checkboxInput("details",
-                                      label = "Graph Details",
-                                      value = FALSE)),
                  column(3,
                         
                         # Select cut-off value edge weights
@@ -172,7 +171,14 @@ shinyUI(pageWithSidebar(
                                     label = "Edge Cut-Off Value:",
                                     min = 0,
                                     max = 1,
-                                    value = 0.1))),
+                                    value = 0.1)),
+                 
+                 column(3,
+                        
+                        # Plot graph details TRUE/FALSE
+                        checkboxInput("details",
+                                      label = "Graph Details",
+                                      value = FALSE))),
                  
                  fluidRow(
                    column(4,
@@ -186,21 +192,20 @@ shinyUI(pageWithSidebar(
                                                   "q-value"),
                                       selected = "None")),
                    
-                   
-                   column(3,
-                          
-                          # apply non-paranormal transformation TRUE/FALSE
-                          checkboxInput("normal",
-                                        label = "Non-Paranormal Transformation",
-                                        value = FALSE)),
-                   
                    column(3,
                           # Select width edge
                           sliderInput("edgesize",
                                       label = "Edge Size:",
                                       min = 0,
                                       max = 25,
-                                      value = 5))),
+                                      value = 5)),
+                   
+                   column(3,
+                          
+                          # apply non-paranormal transformation TRUE/FALSE
+                          checkboxInput("normal",
+                                        label = "Non-Paranormal Transformation",
+                                        value = FALSE))),
                
                fluidRow(
                  column(4,
@@ -212,13 +217,7 @@ shinyUI(pageWithSidebar(
                                                 "Gaussian",
                                                 "None"),
                                     selected = "None")),
-                        
-                 column(3,
-                        # Node colours pastel TRUE/FALSE
-                        # NOTE: CURRENTLY NOT WORKING
-                        checkboxInput("pastelcol",
-                                      label = "Pastel colours",
-                                      value = FALSE)),
+                       
                  column(3,
                         
                         # Select size of nodes
@@ -226,7 +225,14 @@ shinyUI(pageWithSidebar(
                                     label = "Node Size:",
                                     min = 0,
                                     max = 25,
-                                    value = 6.1))),
+                                    value = 6.1)),
+                 
+                 column(3,
+                        
+                        # Plot self-loops TRUE/FALSE
+                        checkboxInput("diagonal",
+                                      label = "Plot Self-Loops",
+                                      value = FALSE))),
                
                fluidRow(
                  column(4,
@@ -240,12 +246,7 @@ shinyUI(pageWithSidebar(
                                                 "Gaussian",
                                                 "None"),
                                     selected = "None")),
-                 column(3,
-                        
-                        # Plot self-loops TRUE/FALSE
-                        checkboxInput("diagonal",
-                                      label = "Plot Self-Loops",
-                                      value = FALSE)),
+                 
                  column(3,
                         
                         # Set cut-off value for FDR network
