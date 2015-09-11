@@ -28,12 +28,6 @@ if(!"igraph" %in% installed.packages())
 }
 library(igraph)
 
-if(!"pcalg" %in% installed.packages())
-{
-  install.packages("pcalg")
-}
-library(pcalg)
-
 if(!"psych" %in% installed.packages())
 {
   install.packages("psych")
@@ -66,11 +60,11 @@ if(!"RBGL" %in% installed.packages())
 }
 library(RBGL)
 
-if(!"Rgraphviz" %in% installed.packages())
+if(!"pcalg" %in% installed.packages())
 {
-  biocLite("Rgraphviz")
+  install.packages("pcalg")
 }
-library(Rgraphviz)
+library(pcalg)
 
 
 runGitHub("NetworkApp", "JolandaKossakowski") 
