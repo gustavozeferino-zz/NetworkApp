@@ -574,13 +574,15 @@ shinyServer(
                sampleSize = nrow(data()),
                graph = est(),
                weighted = weight(),
-               directed = direct(), 
+               directed = direct(),
+               labels = lab(),
                DoNotPlot = TRUE), include = c(stren(), between(), close()), standardized = input$standardizedcentplot)
       } else if(input$sortdata == "Adjacency Matrix")
       {
         cent <- centralityPlot(qgraph(data(),
                                       weighted = weight(),
                                       directed = direct(),
+                                      labels = lab(),
                                       DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
       } else if(input$sortdata == "Edgelist")
       {
@@ -593,12 +595,14 @@ shinyServer(
         cent <- centralityPlot(qgraph(norm()$PCC,
                                       weighted = weight(),
                                       directed = direct(),
+                                      labels = lab(),
                                       DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
       } else if(input$method == "Graphical VAR: PDC")
       {
         cent <- centralityPlot(qgraph(norm()$PDC,
                                       weighted = weight(),
                                       directed = direct(),
+                                      labels = lab(),
                                       DoNotPlot = TRUE), include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot)
       }
       
@@ -631,30 +635,35 @@ shinyServer(
                                        graph = est(),
                                        weighted = weight(),
                                        directed = direct(),
+                                      labels = lab(),
                                       DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           } else if(input$sortdata == "Adjacency Matrix")
           {
             g <- centralityPlot(qgraph(data(), 
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           } else if(input$sortdata == "Edgelist")
           {
             g <- centralityPlot(qgraph(data(), 
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           } else if(input$method == "Graphical VAR: PCC")
           {
             g <- centralityPlot(qgraph(norm()$PCC,
                                           weighted = weight(),
                                           directed = direct(),
+                                       labels = lab(),
                                           DoNotPlot = TRUE), print = FALSE, include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           } else if(input$method == "Graphical VAR: PDC")
           {
             g <- centralityPlot(qgraph(norm()$PDC,
                                           weighted = weight(),
                                           directed = direct(),
+                                       labels = lab(),
                                           DoNotPlot = TRUE), print = FALSE, include = c(between(), close(), indeg(), outdeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1)) + coord_flip()
           }
           print(g)
@@ -669,18 +678,21 @@ shinyServer(
                                        graph = est(),
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           } else if(input$sortdata == "Adjacency Matrix")
           {
             g <- centralityPlot(qgraph(data(),
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           } else if(input$sortdata == "Edgelist")
           {
             g <- centralityPlot(qgraph(data(),
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           } else if(input$method == "Graphical VAR: PCC")
           {
@@ -689,6 +701,7 @@ shinyServer(
                                        graph = est(),
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           } else if(input$method == "Graphical VAR: PDC")
           {
@@ -697,6 +710,7 @@ shinyServer(
                                        graph = est(),
                                        weighted = weight(),
                                        directed = direct(),
+                                       labels = lab(),
                                        DoNotPlot = TRUE), print = FALSE, include = c(stren(), between(), close(), indeg()), standardized = input$standardizedcentplot) + theme(axis.text.x = element_text(size = 5, angle = 45, hjust = 1, vjust = 1))
           }
           print(g)
@@ -773,34 +787,37 @@ shinyServer(
                                      graph = est(),
                                      weighted = weight(),
                                      directed = direct(),
+                                 labels = lab(),
                                      DoNotPlot = TRUE), standardized = input$standardizedcenttab)
         } else if(input$sortdata == "Adjacency Matrix")
         {
           centralityTable(qgraph(data(),
                                      weighted = weight(),
                                      directed = direct(),
+                                 labels = lab(),
                                      DoNotPlot = TRUE), standardized = input$standardizedcenttab)
         } else if(input$sortdata == "Edgelist")
         {
           centralityTable(qgraph(data(),
                                      weighted = weight(),
                                      directed = direct(),
+                                 labels = lab(),
                                      DoNotPlot = TRUE), standardized = input$standardizedcenttab)
           } else if(input$method == "Graphical VAR: PCC")
           {
             centralityTable(qgraph(norm()$PCC,
                                    sampleSize = nrow(data()),
-                                   graph = est(),
                                    weighted = weight(),
                                    directed = direct(),
+                                   labels = lab(),
                                    DoNotPlot = TRUE), standardized = input$standardizedcenttab)
           } else if(input$method == "Graphical VAR: PDC")
           {
             centralityTable(qgraph(norm()$PDC,
                                    sampleSize = nrow(data()),
-                                   graph = est(),
                                    weighted = weight(),
                                    directed = direct(),
+                                   labels = lab(),
                                    DoNotPlot = TRUE), standardized = input$standardizedcenttab)
           }
       })
