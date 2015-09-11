@@ -52,11 +52,25 @@ if(!"graphicalVAR" %in% installed.packages())
 }
 library(graphicalVAR)
 
+source("https://bioconductor.org/biocLite.R")
+
 if(!"graph" %in% installed.packages())
 {
-  source("https://bioconductor.org/biocLite.R")
   biocLite("graph")
 }
 library(graph)
+
+if(!"RBGL" %in% installed.packages())
+{
+  biocLite("RBGL")
+}
+library(RBGL)
+
+if(!"Rgraphviz" %in% installed.packages())
+{
+  biocLite("Rgraphviz")
+}
+library(Rgraphviz)
+
 
 runGitHub("NetworkApp", "JolandaKossakowski") 
